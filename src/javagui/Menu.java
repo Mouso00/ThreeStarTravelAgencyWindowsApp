@@ -77,7 +77,10 @@ public class Menu extends JFrame {
         footerPanel.add(btnExit);
         getContentPane().add(footerPanel, BorderLayout.SOUTH);
 
-        setMinimumSize(new Dimension(700, 600)); // Set the minimum size of the frame
+        // Set the size and location similar to the Login view
+        setBounds(100, 100, 800, 600); // Match the dimensions and position
+
+        setMinimumSize(new Dimension(800, 600)); // Set the minimum size of the frame
     }
 
     private void createImageAndButton(JPanel panel, String imagePath, String buttonText, int width, int height, ActionListener actionListener) {

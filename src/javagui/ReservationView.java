@@ -1,136 +1,116 @@
 package javagui;
 
-import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ReservationView extends JFrame {
 
-    private JPanel contentPane;
-    private JComboBox<String> fromComboBox, toComboBox, passengerComboBox, classComboBox;
+    private JTextField nameField;
+    private JTextField contactField;
     private JTextField dateField;
+    private JTextField classField;
+    private JTextField fromField;
+    private JTextField toField;
 
     public ReservationView() {
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("Train Reservation");
-        setBounds(100, 100, 800, 700);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Reservation");
 
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-        contentPane.setBackground(new Color(54, 100, 139));
-        setContentPane(contentPane);
-        contentPane.setLayout(new GridBagLayout());
+        // Set the size and location similar to the Login and Menu views
+        setBounds(100, 100, 800, 600); // Match the dimensions and position
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.anchor = GridBagConstraints.WEST;
+        // Create a main panel to hold both the Reservation form and Search Results
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
-        // Form panel
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBackground(new Color(255, 255, 255));
-        formPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
-        contentPane.add(formPanel, gbc);
+        // Create a panel for the Reservation form on the left
+        JPanel reservationPanel = new JPanel();
+        reservationPanel.setLayout(new GridLayout(7, 2, 10, 10));
+        reservationPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        reservationPanel.setBackground(new Color(240, 240, 240));
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        formPanel.add(new JLabel("From:"), gbc);
-        String[] fromOptions = {"Source1", "Source2", "Source3"};
-        fromComboBox = new JComboBox<>(fromOptions);
-        gbc.gridx = 1;
-        formPanel.add(fromComboBox, gbc);
+        createFieldWithLabel(reservationPanel, "Name:", nameField = new JTextField(20));
+        createFieldWithLabel(reservationPanel, "Contact:", contactField = new JTextField(20));
+        createFieldWithLabel(reservationPanel, "Date:", dateField = new JTextField(20));
+        createFieldWithLabel(reservationPanel, "Class:", classField = new JTextField(20));
+        createFieldWithLabel(reservationPanel, "From:", fromField = new JTextField(20));
+        createFieldWithLabel(reservationPanel, "To:", toField = new JTextField(20));
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        formPanel.add(new JLabel("To:"), gbc);
-        String[] toOptions = {"Destination1", "Destination2", "Destination3"};
-        toComboBox = new JComboBox<>(toOptions);
-        gbc.gridx = 1;
-        formPanel.add(toComboBox, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        formPanel.add(new JLabel("Passenger:"), gbc);
-        String[] passengerOptions = {"1 Adult", "2 Adults", "1 Adult + 1 Child (Age 15)"};
-        passengerComboBox = new JComboBox<>(passengerOptions);
-        gbc.gridx = 1;
-        formPanel.add(passengerComboBox, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        formPanel.add(new JLabel("Class:"), gbc);
-        String[] classOptions = {"First Class", "Second Class", "Economy"};
-        classComboBox = new JComboBox<>(classOptions);
-        gbc.gridx = 1;
-        formPanel.add(classComboBox, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        formPanel.add(new JLabel("Date of Journey:"), gbc);
-        dateField = new JTextField(20);
-        gbc.gridx = 1;
-        formPanel.add(dateField, gbc);
-
-        // Reservation Button
-        JButton reserveButton = createStyledButton("Reserve");
-        reserveButton.addActionListener(new ActionListener() {
+        // Search button with a stylish look
+        JButton searchButton = new JButton("Search");
+        searchButton.setBackground(new Color(54, 100, 139));
+        searchButton.setForeground(Color.WHITE);
+        searchButton.setFont(new Font("Arial", Font.BOLD, 16));
+        searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Implement the reservation logic here (saving data to a database, for example)
-                // After saving, you can display a confirmation message or navigate back to the main menu
-                dispose();
+                // Handle search logic here
+                // Show search results in a dialog
+                showSearchResultsDialog();
             }
         });
 
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(20, 0, 0, 0);
-        gbc.anchor = GridBagConstraints.CENTER;
-        formPanel.add(reserveButton, gbc);
+        // Add components to the main panel
+        mainPanel.add(new JLabel("Reservation"), BorderLayout.NORTH);
+        mainPanel.add(reservationPanel, BorderLayout.WEST);
+        mainPanel.add(searchButton, BorderLayout.SOUTH);
 
-        // Navigation Button (Back to Main Menu)
-        JButton backButton = createStyledButton("Back to Main Menu");
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Create and display the Menu frame (Main Menu)
-                Menu menuFrame = new Menu();
-                menuFrame.setVisible(true);
-
-                // Close the current ReservationView frame
-                dispose();
-            }
-        });
-
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.insets.top = 100;
-        gbc.anchor = GridBagConstraints.CENTER;
-        formPanel.add(backButton, gbc);
-        
-        setMinimumSize(new Dimension(800, 700)); // Set the minimum size of the frame
-        setBounds(100, 100, 800, 700); // Set the initial size
+        getContentPane().add(mainPanel);
+        setMinimumSize(new Dimension(800, 600));
+        setLocationRelativeTo(null); // Center the frame on the screen
     }
 
-    private JButton createStyledButton(String text) {
-        JButton button = new JButton(text);
-        button.setFont(new Font("Arial", Font.BOLD, 16));
-        button.setBackground(new Color(54, 100, 139));
-        button.setForeground(Color.WHITE);
-        button.setFocusPainted(false);
-        return button;
+    private void createFieldWithLabel(JPanel panel, String labelText, JTextField textField) {
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Arial", Font.BOLD, 16));
+
+        textField.setFont(new Font("Arial", Font.PLAIN, 16));
+        textField.setBackground(new Color(220, 220, 220));
+        textField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        panel.add(label);
+        panel.add(textField);
+    }
+
+    private void showSearchResultsDialog() {
+        // You can implement the search logic here and populate the search results
+        // For this example, we use placeholder search results
+        String[] results = {"Train ABC", "Train XYZ", "Train PQR", "Train 123", "Train 456", "Train 789"};
+
+        // Create a panel to display search results
+        JPanel resultsPanel = new JPanel();
+        resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+        resultsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        resultsPanel.setBackground(new Color(240, 240, 240));
+
+        // Create labels for the search results
+        JLabel resultsLabel = new JLabel("Search Results");
+        resultsLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        resultsPanel.add(resultsLabel);
+
+        // Add search results to the panel
+        for (String result : results) {
+            createResultLabel(resultsPanel, result);
+        }
+
+        // Create a dialog to display the search results
+        JDialog searchResultsDialog = new JDialog(this, "Search Results", true);
+        searchResultsDialog.setContentPane(resultsPanel);
+        searchResultsDialog.pack();
+        searchResultsDialog.setLocationRelativeTo(this); // Center the dialog on the parent frame
+        searchResultsDialog.setVisible(true);
+    }
+
+    private void createResultLabel(JPanel panel, String resultText) {
+        JLabel resultLabel = new JLabel(resultText);
+        resultLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        panel.add(resultLabel);
     }
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ReservationView frame = new ReservationView();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        SwingUtilities.invokeLater(() -> {
+            ReservationView frame = new ReservationView();
+            frame.setVisible(true);
         });
     }
 }
