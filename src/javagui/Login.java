@@ -14,18 +14,6 @@ public class Login extends JFrame {
     private JTextField user;
     private JPasswordField pass;
 
-//    public static void main(String[] args) {
-//        EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//                    Login window = new Login();
-//                    window.setVisible(true);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//    }
 
     public Login() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

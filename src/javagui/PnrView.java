@@ -69,19 +69,4 @@ public class PnrView extends JFrame {
         setMinimumSize(new Dimension(800, 600));
         setBounds(100, 100, 800, 600);
     }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    String pnrCode = "ABC12345"; // Replace with your PNR code
-                    String selectedRecords = "Train Number: 12345  |  Seat Number: 12A  |  Time: 2023-11-10 10:00 AM  |  Price: $50\nTrain Number: 54321  |  Seat Number: 7B  |  Time: 2023-11-11 2:30 PM  |  Price: $60"; // Replace with selected records
-                    PnrView pnrView = new PnrView(pnrCode, selectedRecords);
-                    pnrView.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 }

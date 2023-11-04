@@ -95,17 +95,4 @@ public class SearchTrainView extends JFrame {
         setMinimumSize(new Dimension(800, 600)); // Set the minimum size of the frame
         setBounds(100, 100, 800, 600); // Set initial size
     }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    SearchTrainView searchTrainView = new SearchTrainView();
-                    searchTrainView.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 }

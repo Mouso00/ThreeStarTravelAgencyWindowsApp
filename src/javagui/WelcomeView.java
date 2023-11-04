@@ -9,6 +9,10 @@ public class WelcomeView extends JFrame {
     public WelcomeView() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Welcome");
+     // Set a fixed size for the WelcomeView
+        setSize(800, 600);
+        setResizable(false); // Prevent resizing
+
 
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);

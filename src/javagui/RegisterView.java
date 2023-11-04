@@ -106,26 +106,35 @@ public class RegisterView extends JFrame {
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Handle the registration logic here
+                WelcomeView welcomeView = new WelcomeView();
+                welcomeView.setVisible(true);
+                dispose();
             }
         });
         registerButton.setFont(new Font("Arial", Font.BOLD, 16));
         registerButton.setBounds(250, 450, 150, 40);
         panel.add(registerButton);
 
-        setMinimumSize(new Dimension(800, 600)); // Set the minimum size of the frame
-        setBounds(100, 100, 800, 600); // Set initial size
-    }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    RegisterView registerView = new RegisterView();
-                    registerView.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        // Back Button with Icon
+        JButton backButton = new JButton("Back");
+        backButton.setForeground(Color.WHITE);
+        backButton.setBackground(new Color(54, 100, 139));
+        backButton.setIcon(new ImageIcon("path_to_your_icon.png")); // Replace with the path to your icon
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Navigate back to the WelcomeView
+                WelcomeView welcomeView = new WelcomeView();
+                welcomeView.setVisible(true);
+                dispose();
             }
         });
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.setBounds(100, 450, 150, 40);
+        panel.add(backButton);
+
+        setMinimumSize(new Dimension(800, 600));
+        setBounds(100, 100, 800, 600);
     }
+
+   
 }

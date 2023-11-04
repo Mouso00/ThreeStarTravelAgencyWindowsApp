@@ -108,11 +108,4 @@ public class Menu extends JFrame {
         button.setFocusPainted(false);
         return button;
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Menu frame = new Menu();
-            frame.setVisible(true);
-        });
-    }
 }

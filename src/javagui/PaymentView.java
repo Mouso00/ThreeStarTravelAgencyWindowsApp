@@ -73,17 +73,4 @@ public class PaymentView extends JFrame {
         setMinimumSize(new Dimension(800, 600));
         setBounds(100, 100, 800, 600);
     }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    PaymentView paymentView = new PaymentView();
-                    paymentView.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 }
