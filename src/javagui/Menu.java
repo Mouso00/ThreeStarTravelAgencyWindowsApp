@@ -34,8 +34,8 @@ public class Menu extends JFrame {
         // Create a sub-panel for the buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 30));
         createImageAndButton(buttonPanel, "img/reservation.png", "Make a Reservation", 150, 150, e -> {
-            ReservationView reservationView = new ReservationView();
-            reservationView.setVisible(true);
+            SearchTrainView searchTrainView = new SearchTrainView();
+            searchTrainView.setVisible(true);
             dispose();
         });
         createImageAndButton(buttonPanel, "img/cancellation.png", "Cancel a Reservation", 150, 150, e -> {
