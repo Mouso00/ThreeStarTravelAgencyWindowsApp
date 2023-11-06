@@ -1,14 +1,19 @@
 package javagui;
 
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SearchTrainView extends JFrame {
+
     public SearchTrainView() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Search Train");
+        setPreferredSize(new Dimension(800, 600));
+        setResizable(false);
 
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
@@ -27,53 +32,43 @@ public class SearchTrainView extends JFrame {
         titleLabel.setBounds(300, 30, 200, 40);
         panel.add(titleLabel);
 
-        JLabel fromLabel = new JLabel("From:");
-        fromLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        fromLabel.setForeground(Color.WHITE);
-        fromLabel.setBounds(100, 100, 80, 30);
-        panel.add(fromLabel);
+        int labelX = 100;
+        int labelY = 100;
+        int comboBoxX = 250;
+        int comboBoxY = 100;
+        int labelComboBoxGap = 50;
+        int comboBoxWidth = 150;
+        int comboBoxHeight = 30;
 
-        // Dropdown List for "From"
-        String[] fromOptions = {"City A", "City B", "City C"};
-        JComboBox<String> fromDropdown = new JComboBox<>(fromOptions);
-        fromDropdown.setBounds(200, 100, 150, 30);
-        panel.add(fromDropdown);
+        createLabelAndComboBox(panel, "From:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, new String[]{"City A", "City B", "City C"});
+        labelY += labelComboBoxGap;
+        comboBoxY += labelComboBoxGap;
 
-        JLabel toLabel = new JLabel("To:");
-        toLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        toLabel.setForeground(Color.WHITE);
-        toLabel.setBounds(100, 150, 80, 30);
-        panel.add(toLabel);
+        createLabelAndComboBox(panel, "To:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, new String[]{"City X", "City Y", "City Z"});
+        labelY += labelComboBoxGap;
+        comboBoxY += labelComboBoxGap;
 
-        // Dropdown List for "To"
-        String[] toOptions = {"City X", "City Y", "City Z"};
-        JComboBox<String> toDropdown = new JComboBox<>(toOptions);
-        toDropdown.setBounds(200, 150, 150, 30);
-        panel.add(toDropdown);
+        // Add a JDateChooser for date selection
+        JDateChooser dateChooser = new JDateChooser();
+        dateChooser.setBounds(comboBoxX, comboBoxY, 150, 30);
+        panel.add(dateChooser);
 
-        JLabel dateTimeLabel = new JLabel("Date and Time:");
-        dateTimeLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        dateTimeLabel.setForeground(Color.WHITE);
-        dateTimeLabel.setBounds(100, 200, 150, 30);
-        panel.add(dateTimeLabel);
+        // Add a separate field for date and time
+        createLabelAndComboBox(panel, "Date of Journey:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, new String[]{"2023-11-10"});
+        labelY += labelComboBoxGap;
+        comboBoxX += 20;
+        comboBoxY += labelComboBoxGap;
 
-        // Dropdown List for "Date and Time"
-        String[] dateTimeOptions = {"2023-11-10 10:00 AM", "2023-11-11 2:30 PM", "2023-11-12 8:00 AM"};
-        JComboBox<String> dateTimeDropdown = new JComboBox<>(dateTimeOptions);
-        dateTimeDropdown.setBounds(250, 200, 200, 30);
-        panel.add(dateTimeDropdown);
+        createLabelAndComboBox(panel, "Time:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, new String[]{
+            "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM",
+            "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
+            "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
+            "9:00 PM", "10:00 PM", "11:00 PM"
+        });
+        labelY += labelComboBoxGap;
+        comboBoxY += labelComboBoxGap;
 
-        JLabel classLabel = new JLabel("Class:");
-        classLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        classLabel.setForeground(Color.WHITE);
-        classLabel.setBounds(100, 250, 80, 30);
-        panel.add(classLabel);
-
-        // Dropdown List for "Class"
-        String[] classOptions = {"First Class", "Second Class", "Economy"};
-        JComboBox<String> classDropdown = new JComboBox<>(classOptions);
-        classDropdown.setBounds(200, 250, 150, 30);
-        panel.add(classDropdown);
+        createLabelAndComboBox(panel, "Class:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, new String[]{"First Class", "Second Class", "Economy"});
 
         JButton reservationButton = new JButton("Reserve");
         reservationButton.setForeground(Color.WHITE);
@@ -89,10 +84,22 @@ public class SearchTrainView extends JFrame {
             }
         });
         reservationButton.setFont(new Font("Arial", Font.BOLD, 16));
-        reservationButton.setBounds(300, 300, 150, 40);
+        reservationButton.setBounds(300, 400, 150, 40);
         panel.add(reservationButton);
 
-        setMinimumSize(new Dimension(800, 600)); // Set the minimum size of the frame
-        setBounds(100, 100, 800, 600); // Set initial size
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    private void createLabelAndComboBox(JPanel panel, String labelText, int labelX, int labelY, int comboBoxX, int comboBoxY, int comboBoxWidth, int comboBoxHeight, String[] options) {
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Arial", Font.BOLD, 16));
+        label.setForeground(Color.WHITE);
+        label.setBounds(labelX, labelY, 120, 30);
+        panel.add(label);
+
+        JComboBox<String> comboBox = new JComboBox<>(options);
+        comboBox.setBounds(comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight);
+        panel.add(comboBox);
     }
 }

@@ -14,15 +14,14 @@ public class Login extends JFrame {
     private JTextField user;
     private JPasswordField pass;
 
-
     public Login() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Login");
+        setPreferredSize(new Dimension(800, 600));
+        setResizable(false);
 
-        JPanel contentPane = new JPanel();
+        JPanel contentPane = new JPanel(null);
         setContentPane(contentPane);
-        contentPane.setBackground(new Color(248, 248, 248));
-        contentPane.setLayout(null);
 
         // Left panel for decorative image
         JPanel leftPanel = new JPanel();
@@ -45,11 +44,10 @@ public class Login extends JFrame {
             e.printStackTrace();
         }
 
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(null);
         panel.setBackground(new Color(54, 100, 139));
         panel.setBounds(250, 0, 550, 600);
         contentPane.add(panel);
-        panel.setLayout(null);
 
         JLabel titleLabel = new JLabel("Welcome to 3* Travel");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -60,7 +58,6 @@ public class Login extends JFrame {
         user = new JTextField();
         user.setBounds(230, 240, 180, 30);
         panel.add(user);
-        user.setColumns(10);
 
         pass = new JPasswordField();
         pass.setBounds(230, 280, 180, 30);
@@ -79,22 +76,26 @@ public class Login extends JFrame {
         panel.add(passLabel);
 
         JButton loginButton = new JButton("Login");
-        loginButton.setForeground(Color.WHITE);
-        loginButton.setBackground(new Color(54, 100, 139));
-        loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Handle login logic here
-                // If login is successful, navigate to the main menu
-                Menu menuView = new Menu();
-                menuView.setVisible(true);
-                dispose(); // Close the current Login frame
-            }
-        });
-        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
+        customizeButton(loginButton);
+        loginButton.addActionListener(e -> openMenuView());
         loginButton.setBounds(230, 340, 180, 40);
         panel.add(loginButton);
 
-        setMinimumSize(new Dimension(800, 600)); // Set the minimum size of the frame
-        setBounds(100, 100, 800, 600); // Set initial size
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    private void customizeButton(JButton button) {
+        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(54, 100, 139));
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+
+    private void openMenuView() {
+        Menu menuView = new Menu();
+        menuView.setVisible(true);
+        dispose();
     }
 }
