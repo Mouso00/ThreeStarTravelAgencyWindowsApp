@@ -2,10 +2,15 @@ package javagui;
 
 import com.toedter.calendar.JDateChooser;
 
+import dbConnection.DatabaseConnection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class RegisterView extends JFrame {
     private JTextField fullNameField;
@@ -138,18 +143,48 @@ public class RegisterView extends JFrame {
     }
 
     private void openWelcomeView() {
-        // Access the data from the fields
         String fullName = fullNameField.getText();
         String emailAddress = emailField.getText();
         String password = new String(passwordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());
         String selectedGender = (String) genderComboBox.getSelectedItem();
-        // You can similarly access other fields as needed.
+        java.sql.Date dateOfBirth = new java.sql.Date(dateChooser.getDate().getTime());
 
-        // Perform validation and registration logic here
+        // Perform validation (check if passwords match, etc.)
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(null, "Passwords do not match. Please try again.");
+            return;
+        }
 
-        WelcomeView welcomeView = new WelcomeView();
-        welcomeView.setVisible(true);
-        dispose();
+        // Database insertion logic
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String insertQuery = "INSERT INTO users (username, password, role, created_at, full_name, email_address, gender, date_of_birth) VALUES (?, ?, ?, NOW(), ?, ?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                preparedStatement.setString(1, emailAddress);
+                preparedStatement.setString(2, password);
+                preparedStatement.setString(3, "user");  // Set the default role to "user"
+                preparedStatement.setString(4, fullName);
+                preparedStatement.setString(5, emailAddress);
+                preparedStatement.setString(6, selectedGender);
+                preparedStatement.setDate(7, dateOfBirth);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Registration successful!");
+                    dispose();  // Close the RegisterView
+                    // Open the WelcomeView (or any other desired view)
+                    WelcomeView welcomeView = new WelcomeView();
+                    welcomeView.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Registration failed. Please try again.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error: Registration failed.");
+        }
     }
+
 }

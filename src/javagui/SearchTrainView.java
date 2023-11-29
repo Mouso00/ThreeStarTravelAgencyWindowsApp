@@ -70,7 +70,7 @@ public class SearchTrainView extends JFrame {
 
         createLabelAndComboBox(panel, "Class:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, new String[]{"First Class", "Second Class", "Economy"});
 
-        JButton reservationButton = new JButton("Reserve");
+        JButton reservationButton = new JButton("Search");
         reservationButton.setForeground(Color.WHITE);
         reservationButton.setBackground(new Color(54, 100, 139));
         reservationButton.addActionListener(new ActionListener() {
@@ -78,8 +78,8 @@ public class SearchTrainView extends JFrame {
                 // Handle the reservation logic here (if needed)
 
                 // Navigate to the PaymentView
-                PaymentView paymentView = new PaymentView();
-                paymentView.setVisible(true);
+                SearchResultsView searchResultsView = new SearchResultsView();
+                searchResultsView.setVisible(true);
                 dispose(); // Close the current SearchTrainView frame
             }
         });

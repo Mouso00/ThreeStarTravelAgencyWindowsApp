@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PaymentView extends JFrame {
-    public PaymentView() {
+public class SearchResultsView extends JFrame {
+    public SearchResultsView() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Payment");
 
