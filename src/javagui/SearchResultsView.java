@@ -1,14 +1,26 @@
 package javagui;
 
 import javax.swing.*;
+
+import models.TrainRecord;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class SearchResultsView extends JFrame {
-    public SearchResultsView() {
+
+    private List<TrainRecord> trainRecords; // Add this variable
+
+    public SearchResultsView(List<TrainRecord> trainRecords) {
+        this.trainRecords = trainRecords;
+        initializeUI();
+    }
+
+    public void initializeUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Payment");
+        setTitle("Train Records");
 
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
@@ -27,25 +39,24 @@ public class SearchResultsView extends JFrame {
         titleLabel.setBounds(330, 30, 200, 40);
         panel.add(titleLabel);
 
-        JCheckBox trainRecord1Checkbox = new JCheckBox();
-        trainRecord1Checkbox.setBounds(50, 100, 30, 30);
-        panel.add(trainRecord1Checkbox);
+        // Iterate over trainRecords and update UI components
+        int yOffset = 100;
+        for (TrainRecord record : trainRecords) {
+            JCheckBox trainCheckbox = new JCheckBox();
+            trainCheckbox.setBounds(50, yOffset, 30, 30);
+            panel.add(trainCheckbox);
 
-        JLabel trainRecord1Label = new JLabel("Train Number: 12345  |  Seat Number: 12A  |  Time: 2023-11-10 10:00 AM  |  Price: $50");
-        trainRecord1Label.setFont(new Font("Arial", Font.BOLD, 16));
-        trainRecord1Label.setForeground(Color.WHITE);
-        trainRecord1Label.setBounds(80, 100, 700, 30);
-        panel.add(trainRecord1Label);
+            JLabel trainLabel = new JLabel("Train Number: " + record.getTrainNumber() +
+                    "  |  Seat Number: " + record.getSeatNumber() +
+                    "  |  Time: " + record.getTime() +
+                    "  |  Price: $" + record.getPrice());
+            trainLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            trainLabel.setForeground(Color.WHITE);
+            trainLabel.setBounds(80, yOffset, 700, 30);
+            panel.add(trainLabel);
 
-        JCheckBox trainRecord2Checkbox = new JCheckBox();
-        trainRecord2Checkbox.setBounds(50, 150, 30, 30);
-        panel.add(trainRecord2Checkbox);
-
-        JLabel trainRecord2Label = new JLabel("Train Number: 54321  |  Seat Number: 7B  |  Time: 2023-11-11 2:30 PM  |  Price: $60");
-        trainRecord2Label.setFont(new Font("Arial", Font.BOLD, 16));
-        trainRecord2Label.setForeground(Color.WHITE);
-        trainRecord2Label.setBounds(80, 150, 700, 30);
-        panel.add(trainRecord2Label);
+            yOffset += 50; // Adjust the vertical position for the next train record
+        }
 
         JButton payButton = new JButton("Pay");
         payButton.setForeground(Color.WHITE);
@@ -54,20 +65,20 @@ public class SearchResultsView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Handle the payment logic here
                 String selectedRecords = "";
-                if (trainRecord1Checkbox.isSelected()) {
-                    selectedRecords += "Train Number: 12345  |  Seat Number: 12A  |  Time: 2023-11-10 10:00 AM  |  Price: $50\n";
-                }
-                if (trainRecord2Checkbox.isSelected()) {
-                    selectedRecords += "Train Number: 54321  |  Seat Number: 7B  |  Time: 2023-11-11 2:30 PM  |  Price: $60\n";
+                // Iterate over trainRecords to build the selected records string
+                for (int i = 0; i < trainRecords.size(); i++) {
+                    JCheckBox checkBox = (JCheckBox) panel.getComponent(i * 2);
+                    if (checkBox.isSelected()) {
+                        selectedRecords += trainRecords.get(i).toString() + "\n";
+                    }
                 }
 
-                PnrView pnrView = new PnrView("ABC12345", selectedRecords);
-                pnrView.setVisible(true);
-                dispose(); // Close the current PaymentView frame
+               
+                dispose(); // Close the current SearchResultsView frame
             }
         });
         payButton.setFont(new Font("Arial", Font.BOLD, 16));
-        payButton.setBounds(350, 200, 100, 40);
+        payButton.setBounds(350, yOffset, 100, 40);
         panel.add(payButton);
 
         setMinimumSize(new Dimension(800, 600));

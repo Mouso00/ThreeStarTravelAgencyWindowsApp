@@ -2019,3 +2019,36 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+
+-- Drop the existing cities table if it exists
+DROP TABLE IF EXISTS cities;
+
+-- Create the cities table with auto-incrementing city_id
+CREATE TABLE IF NOT EXISTS cities (
+    city_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    city_name VARCHAR(255) NOT NULL
+);
+
+-- Insert Greek cities into the cities table without providing city_id values
+INSERT INTO cities (city_name) VALUES
+    ('Athens'),
+    ('Thessaloniki'),
+    ('Patras'),
+    ('Heraklion'),
+    ('Larissa');
+
+
+ALTER TABLE trains
+ADD COLUMN class_type VARCHAR(255);
+
+INSERT INTO trains (train_number, seat_number, departure_time, price, class_type)
+VALUES
+    (67890, '15C', '2023-11-10 12:30 PM', 75.00, 'First Class'),
+    (98765, '5D', '2023-11-11 3:00 PM', 65.00, 'Second Class'),
+    (13579, '8A', '2023-11-12 10:00 AM', 50.00, 'Economy');
+
+    
+
