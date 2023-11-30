@@ -1,4 +1,4 @@
-package javagui;
+package javagui.Reservation;
 
 import com.toedter.calendar.JDateChooser;
 
