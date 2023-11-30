@@ -11,10 +11,10 @@ import java.util.List;
 
 public class SearchResultsView extends JFrame {
 
-    private List<TrainRecord> trainRecords; // Add this variable
+    private List<TrainRecord> trainRecords;
 
-    public SearchResultsView(List<TrainRecord> trainRecords) {
-        this.trainRecords = trainRecords;
+    public SearchResultsView() {
+       
         initializeUI();
     }
 
@@ -39,42 +39,16 @@ public class SearchResultsView extends JFrame {
         titleLabel.setBounds(330, 30, 200, 40);
         panel.add(titleLabel);
 
-        // Iterate over trainRecords and update UI components
         int yOffset = 100;
-        for (TrainRecord record : trainRecords) {
-            JCheckBox trainCheckbox = new JCheckBox();
-            trainCheckbox.setBounds(50, yOffset, 30, 30);
-            panel.add(trainCheckbox);
-
-            JLabel trainLabel = new JLabel("Train Number: " + record.getTrainNumber() +
-                    "  |  Seat Number: " + record.getSeatNumber() +
-                    "  |  Time: " + record.getTime() +
-                    "  |  Price: $" + record.getPrice());
-            trainLabel.setFont(new Font("Arial", Font.BOLD, 16));
-            trainLabel.setForeground(Color.WHITE);
-            trainLabel.setBounds(80, yOffset, 700, 30);
-            panel.add(trainLabel);
-
-            yOffset += 50; // Adjust the vertical position for the next train record
-        }
-
+        
         JButton payButton = new JButton("Pay");
         payButton.setForeground(Color.WHITE);
         payButton.setBackground(new Color(54, 100, 139));
         payButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Handle the payment logic here
-                String selectedRecords = "";
-                // Iterate over trainRecords to build the selected records string
-                for (int i = 0; i < trainRecords.size(); i++) {
-                    JCheckBox checkBox = (JCheckBox) panel.getComponent(i * 2);
-                    if (checkBox.isSelected()) {
-                        selectedRecords += trainRecords.get(i).toString() + "\n";
-                    }
-                }
-
-               
-                dispose(); // Close the current SearchResultsView frame
+                
+                
+                dispose();
             }
         });
         payButton.setFont(new Font("Arial", Font.BOLD, 16));
