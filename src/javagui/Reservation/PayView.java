@@ -1,26 +1,19 @@
-package javagui;
+package javagui.Reservation;
 
 import javax.swing.*;
-
-import models.TrainRecord;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
-public class SearchResultsView extends JFrame {
+public class PayView extends JFrame {
 
-    private List<TrainRecord> trainRecords;
-
-    public SearchResultsView() {
-       
+    public PayView() {
         initializeUI();
     }
 
-    public void initializeUI() {
+    private void initializeUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Train Records");
+        setTitle("Payment");
 
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
@@ -33,29 +26,36 @@ public class SearchResultsView extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
 
-        JLabel titleLabel = new JLabel("Train Records");
+        JLabel titleLabel = new JLabel("Payment");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setBounds(330, 30, 200, 40);
         panel.add(titleLabel);
 
+        // Add other components and UI setup for PayView here...
+
         int yOffset = 100;
-        
-        JButton payButton = new JButton("Pay");
-        payButton.setForeground(Color.WHITE);
-        payButton.setBackground(new Color(54, 100, 139));
-        payButton.addActionListener(new ActionListener() {
+
+        JButton backButton = new JButton("Back");
+        backButton.setForeground(Color.WHITE);
+        backButton.setBackground(new Color(54, 100, 139));
+        backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
-                
-                dispose();
+                openAvailableSeatView();
+                dispose();  // Close the current view if needed
             }
         });
-        payButton.setFont(new Font("Arial", Font.BOLD, 16));
-        payButton.setBounds(350, yOffset, 100, 40);
-        panel.add(payButton);
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.setBounds(350, yOffset, 100, 40);
+        panel.add(backButton);
 
         setMinimumSize(new Dimension(800, 600));
         setBounds(100, 100, 800, 600);
+    }
+
+    private void openAvailableSeatView() {
+        AvailableSeatView availableSeatView = new AvailableSeatView();
+        availableSeatView.setVisible(true);
+        dispose();  // Close the current view if needed
     }
 }

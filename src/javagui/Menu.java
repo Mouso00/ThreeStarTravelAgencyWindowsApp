@@ -1,6 +1,9 @@
 package javagui;
 
 import javax.swing.*;
+
+import javagui.Reservation.SearchTrainView;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -19,7 +22,6 @@ public class Menu extends JFrame {
         // Header Panel
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(54, 100, 139));
-
         JLabel lblTitle = new JLabel("Online Train Reservation");
         lblTitle.setFont(new Font("Arial", Font.BOLD, 32));
         lblTitle.setForeground(Color.WHITE);
