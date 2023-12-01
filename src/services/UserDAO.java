@@ -6,11 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
+
 import models.User;
 
 public class UserDAO {
     private static final String INSERT_USER_QUERY = "INSERT INTO users (username, password, role, created_at) VALUES (?, ?, ?, NOW())";
 
+    
+    
     public static void insertUser(Connection connection, User user) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, user.getUsername());
@@ -32,5 +36,7 @@ public class UserDAO {
             }
         }
     }
+    
+
 }
 
