@@ -2,6 +2,8 @@ package javagui.Reservation;
 
 import com.toedter.calendar.JDateChooser;
 
+import services.ReservationDAO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class SearchTrainView extends JFrame {
         createLabelAndComboBox(panel, "From:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, getCityOptions());
         labelY += labelComboBoxGap;
         comboBoxY += labelComboBoxGap;
+//        loginButton.addActionListener(e -> authenticateUser());
 
         createLabelAndComboBox(panel, "To:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, getCityOptions());
         labelY += labelComboBoxGap;
@@ -67,13 +70,6 @@ public class SearchTrainView extends JFrame {
         labelY += labelComboBoxGap;
         comboBoxY += labelComboBoxGap;
 
-        fromComboBox = new JComboBox<>(getCityOptions());
-        fromComboBox.setBounds(comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight);
-        panel.add(fromComboBox);
-
-        toComboBox = new JComboBox<>(getCityOptions());
-        toComboBox.setBounds(comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight);
-        panel.add(toComboBox);
         classComboBox = createLabelAndComboBox(panel, "Class:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, getClassOptions());
 
         JButton reservationButton = new JButton("Search");
@@ -109,7 +105,7 @@ public class SearchTrainView extends JFrame {
 
     private String[] getCityOptions() {
         // Replace this with your own data or logic to get city options
-        return new String[]{""};
+        return ReservationDAO.getCityOptions();
     }
 
     private String[] getDateOptions() {
@@ -122,8 +118,8 @@ public class SearchTrainView extends JFrame {
         return new String[]{""};
     }
 
-    private String[] getClassOptions() {
-        // Replace this with your own data or logic to get class options
-        return new String[]{""};
-    }
+	 private String[] getClassOptions() {
+	        // Replace this with your own data or logic to get class options
+	        return new String[]{"Economy", "Premium", "Salon"};
+	        }
 }
