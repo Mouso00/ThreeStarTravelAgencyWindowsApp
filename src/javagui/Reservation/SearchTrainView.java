@@ -114,12 +114,19 @@ public class SearchTrainView extends JFrame {
     }
 
     private String[] getTimeOptions() {
-        // Replace this with your own data or logic to get time options
-        return new String[]{""};
+        List<String> timeOptions = new ArrayList<>();
+        for (int hour = 1; hour <= 24; hour += 3 ) {
+            for (int minute = 0; minute < 60; minute += 60) {
+                String time = String.format("%02d:%02d", hour, minute);
+                timeOptions.add(time);
+            }
+        }
+
+        return timeOptions.toArray(new String[0]);
     }
 
+
 	 private String[] getClassOptions() {
-	        // Replace this with your own data or logic to get class options
 	        return new String[]{"Economy", "Premium", "Salon"};
 	        }
 }
