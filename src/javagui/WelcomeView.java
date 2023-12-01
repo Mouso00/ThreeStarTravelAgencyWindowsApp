@@ -9,67 +9,94 @@ public class WelcomeView extends JFrame {
     public WelcomeView() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Welcome");
-     // Set a fixed size for the WelcomeView
-        setSize(800, 600);
-        setResizable(false); // Prevent resizing
+        setPreferredSize(new Dimension(800, 600));
+        setResizable(false);
 
-
-        JPanel contentPane = new JPanel();
+        JPanel contentPane = new JPanel(new BorderLayout());
         setContentPane(contentPane);
-        contentPane.setBackground(new Color(248, 248, 248));
-        contentPane.setLayout(null);
 
+        // Create a panel to hold the image on the left
+        JPanel imagePanel = new JPanel();
+        imagePanel.setOpaque(false);
+        contentPane.add(imagePanel, BorderLayout.WEST);
+
+        // Load and scale the image
+        ImageIcon originalImageIcon = new ImageIcon("img/welcomeImage.png");
+        int newWidth = 340;
+        int newHeight = 600;
+        Image scaledImage = originalImageIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
+        JLabel imageLabel = new JLabel(scaledImageIcon);
+        imagePanel.add(imageLabel);
+
+        // Create a panel for the title and buttons on the right
         JPanel panel = new JPanel();
         panel.setBackground(new Color(54, 100, 139));
-        panel.setBounds(0, 0, 800, 600);
-        contentPane.add(panel);
-        panel.setLayout(null);
+        contentPane.add(panel, BorderLayout.CENTER);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // Add vertical glue to center the title and buttons
+        panel.add(Box.createVerticalGlue());
 
         JLabel titleLabel = new JLabel("Welcome to 3* Travel");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBounds(150, 30, 300, 40);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(titleLabel);
 
+        // Add more vertical glue to separate the title and buttons
+        panel.add(Box.createRigidArea(new Dimension(0, 80)));
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        panel.add(buttonPanel);
+        buttonPanel.setLayout(new FlowLayout());
+
         JButton loginButton = new JButton("Login");
-        loginButton.setForeground(Color.WHITE);
-        loginButton.setBackground(new Color(54, 100, 139));
-        loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Handle the action when the "Login" button is clicked
-                Login loginView = new Login();
-                loginView.setVisible(true);
-                dispose(); // Close the current WelcomeView frame
-            }
-        });
-        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
-        loginButton.setBounds(230, 240, 180, 40);
-        panel.add(loginButton);
+        customizeButton(loginButton);
+        loginButton.addActionListener(e -> openLoginView());
+        buttonPanel.add(loginButton);
 
         JButton createAccountButton = new JButton("Create Account");
-        createAccountButton.setForeground(Color.WHITE);
-        createAccountButton.setBackground(new Color(54, 100, 139));
-        createAccountButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                RegisterView registerView = new RegisterView();
-                registerView.setVisible(true);
-                dispose();
-            }
-        });
-        createAccountButton.setFont(new Font("Arial", Font.BOLD, 16));
-        createAccountButton.setBounds(230, 300, 180, 40);
-        panel.add(createAccountButton);
+        customizeButton(createAccountButton);
+        createAccountButton.addActionListener(e -> openRegisterView());
+        buttonPanel.add(createAccountButton);
+
+        // Add more vertical glue to center the buttons
+        panel.add(Box.createVerticalGlue());
+
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    private void customizeButton(JButton button) {
+        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(54, 100, 139));
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setPreferredSize(new Dimension(180, 40));
+        button.setFocusPainted(false); // Remove the button border
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Change cursor on hover
+    }
+
+    private void openLoginView() {
+        Login loginView = new Login();
+        loginView.setVisible(true);
+        dispose();
+    }
+
+    private void openRegisterView() {
+        RegisterView registerView = new RegisterView();
+        registerView.setVisible(true);
+        dispose();
     }
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    WelcomeView welcomeView = new WelcomeView();
-                    welcomeView.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                WelcomeView welcomeView = new WelcomeView();
+                welcomeView.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

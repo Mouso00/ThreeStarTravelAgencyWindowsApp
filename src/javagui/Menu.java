@@ -1,22 +1,23 @@
 package javagui;
 
 import javax.swing.*;
+
+import javagui.Reservation.SearchTrainView;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class Menu extends JFrame {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public Menu() {
+    public Menu() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Online Train Reservation");
+        setPreferredSize(new Dimension(800, 600));
+        setResizable(false);
 
-        // Set a background color for the main panel
-        getContentPane().setBackground(new Color(240, 240, 240)); // Light gray background color
+        // Create the main content pane
+        JPanel contentPane = new JPanel(new BorderLayout());
+        setContentPane(contentPane);
 
         // Header Panel
         JPanel headerPanel = new JPanel();
@@ -25,29 +26,18 @@ public class Menu extends JFrame {
         lblTitle.setFont(new Font("Arial", Font.BOLD, 32));
         lblTitle.setForeground(Color.WHITE);
         headerPanel.add(lblTitle);
-        getContentPane().add(headerPanel, BorderLayout.NORTH);
+        contentPane.add(headerPanel, BorderLayout.NORTH);
 
         // Middle Panel
         JPanel middlePanel = new JPanel(new GridBagLayout());
-        middlePanel.setBackground(new Color(240, 240, 240)); // Light gray background color
+        middlePanel.setBackground(new Color(240, 240, 240));
 
         // Create a sub-panel for the buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 30));
-        createImageAndButton(buttonPanel, "img/reservation.png", "Make a Reservation", 150, 150, e -> {
-            SearchTrainView searchTrainView = new SearchTrainView();
-            searchTrainView.setVisible(true);
-            dispose();
-        });
-        createImageAndButton(buttonPanel, "img/cancellation.png", "Cancel a Reservation", 150, 150, e -> {
-            CancellationView cancellationView = new CancellationView();
-            cancellationView.setVisible(true);
-            dispose();
-        });
-        createImageAndButton(buttonPanel, "img/pnrenquiry.png", "PNR Enquiry", 150, 150, e -> {
-            PnrEnquiryView pnrEnquiryView = new PnrEnquiryView();
-            pnrEnquiryView.setVisible(true);
-            dispose();
-        });
+
+        createImageAndButton(buttonPanel, "img/reservation.png", "Make a Reservation", 150, 150, e -> openSearchTrainView());
+        createImageAndButton(buttonPanel, "img/cancellation.png", "Cancel a Reservation", 150, 150, e -> openCancellationView());
+        createImageAndButton(buttonPanel, "img/pnrenquiry.png", "PNR Enquiry", 150, 150, e -> openPnrEnquiryView());
 
         // Add the sub-panel for buttons to the middle panel
         GridBagConstraints buttonConstraints = new GridBagConstraints();
@@ -63,24 +53,22 @@ public class Menu extends JFrame {
         GridBagConstraints imageConstraints = new GridBagConstraints();
         imageConstraints.gridx = 0;
         imageConstraints.gridy = 1;
-        imageConstraints.fill = GridBagConstraints.BOTH; // Fill both horizontal and vertical space
+        imageConstraints.fill = GridBagConstraints.BOTH;
         imageConstraints.weightx = 1.0;
         imageConstraints.weighty = 1.0;
         middlePanel.add(imageLabel, imageConstraints);
 
-        getContentPane().add(middlePanel, BorderLayout.CENTER);
+        contentPane.add(middlePanel, BorderLayout.CENTER);
 
         // Footer Panel
         JPanel footerPanel = new JPanel();
         JButton btnExit = createStyledButton("Exit");
         btnExit.addActionListener(e -> System.exit(0));
         footerPanel.add(btnExit);
-        getContentPane().add(footerPanel, BorderLayout.SOUTH);
+        contentPane.add(footerPanel, BorderLayout.SOUTH);
 
-        // Set the size and location similar to the Login view
-        setBounds(100, 100, 800, 600); // Match the dimensions and position
-
-        setMinimumSize(new Dimension(800, 600)); // Set the minimum size of the frame
+        pack();
+        setLocationRelativeTo(null);
     }
 
     private void createImageAndButton(JPanel panel, String imagePath, String buttonText, int width, int height, ActionListener actionListener) {
@@ -107,5 +95,23 @@ public class Menu extends JFrame {
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         return button;
+    }
+
+    private void openSearchTrainView() {
+        SearchTrainView searchTrainView = new SearchTrainView();
+        searchTrainView.setVisible(true);
+        dispose();
+    }
+
+    private void openCancellationView() {
+        CancellationView cancellationView = new CancellationView();
+        cancellationView.setVisible(true);
+        dispose();
+    }
+
+    private void openPnrEnquiryView() {
+        PnrEnquiryView pnrEnquiryView = new PnrEnquiryView();
+        pnrEnquiryView.setVisible(true);
+        dispose();
     }
 }

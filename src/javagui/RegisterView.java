@@ -1,140 +1,190 @@
 package javagui;
 
+import com.toedter.calendar.JDateChooser;
+
+import dbConnection.DatabaseConnection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class RegisterView extends JFrame {
+    private JTextField fullNameField;
+    private JTextField emailField;
+    private JPasswordField passwordField;
+    private JPasswordField confirmPasswordField;
+    private JComboBox<String> genderComboBox;
+    private JDateChooser dateChooser;
+    private JButton registerButton;
+    private JButton backButton;
+
     public RegisterView() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Register");
+        setPreferredSize(new Dimension(800, 600));
+        setResizable(false);
 
-        JPanel contentPane = new JPanel();
+        JPanel contentPane = new JPanel(new BorderLayout());
         setContentPane(contentPane);
-        contentPane.setBackground(new Color(248, 248, 248));
-        contentPane.setLayout(null);
 
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(null);  // Using null layout for custom positioning
         panel.setBackground(new Color(54, 100, 139));
-        panel.setBounds(0, 0, 800, 600);
-        contentPane.add(panel);
-        panel.setLayout(null);
+        contentPane.add(panel, BorderLayout.CENTER);
 
-        JLabel titleLabel = new JLabel("Create Your Account");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBounds(250, 30, 300, 40);
-        panel.add(titleLabel);
+        fullNameField = new JTextField();
+        emailField = new JTextField();
+        passwordField = new JPasswordField();
+        confirmPasswordField = new JPasswordField();
+        genderComboBox = new JComboBox<>(new String[]{"Male", "Female", "Other"});
+        dateChooser = new JDateChooser();
 
-        // Labels and Text Fields
+        // Set the font for labels and text fields
+        Font labelFont = new Font("Arial", Font.BOLD, 16);
+        Color labelColor = Color.WHITE;
+
+        int x = 150;
+        int y = 50;
+        int labelWidth = 100;
+        int textFieldWidth = 180;
+        int labelTextFieldGap = 10;
+
         JLabel fullNameLabel = new JLabel("Full Name:");
-        fullNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        fullNameLabel.setForeground(Color.WHITE);
-        fullNameLabel.setBounds(100, 100, 120, 30);
+        fullNameLabel.setFont(labelFont);
+        fullNameLabel.setForeground(labelColor);
+        fullNameLabel.setBounds(x, y, labelWidth, 30);
         panel.add(fullNameLabel);
 
-        JTextField fullNameField = new JTextField();
-        fullNameField.setBounds(250, 100, 300, 30);
+        fullNameField.setBounds(x + labelWidth + labelTextFieldGap, y, textFieldWidth, 30);
         panel.add(fullNameField);
 
+        y += 50;
+
         JLabel emailLabel = new JLabel("Email Address:");
-        emailLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        emailLabel.setForeground(Color.WHITE);
-        emailLabel.setBounds(100, 150, 150, 30);
+        emailLabel.setFont(labelFont);
+        emailLabel.setForeground(labelColor);
+        emailLabel.setBounds(x, y, labelWidth, 30);
         panel.add(emailLabel);
 
-        JTextField emailField = new JTextField();
-        emailField.setBounds(250, 150, 300, 30);
+        emailField.setBounds(x + labelWidth + labelTextFieldGap, y, textFieldWidth, 30);
         panel.add(emailField);
 
+        y += 50;
+
         JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        passwordLabel.setForeground(Color.WHITE);
-        passwordLabel.setBounds(100, 200, 100, 30);
+        passwordLabel.setFont(labelFont);
+        passwordLabel.setForeground(labelColor);
+        passwordLabel.setBounds(x, y, labelWidth, 30);
         panel.add(passwordLabel);
 
-        JPasswordField passwordField = new JPasswordField();
-        passwordField.setBounds(250, 200, 300, 30);
+        passwordField.setBounds(x + labelWidth + labelTextFieldGap, y, textFieldWidth, 30);
         panel.add(passwordField);
 
+        y += 50;
+
         JLabel confirmPasswordLabel = new JLabel("Confirm Password:");
-        confirmPasswordLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        confirmPasswordLabel.setForeground(Color.WHITE);
-        confirmPasswordLabel.setBounds(100, 250, 160, 30);
+        confirmPasswordLabel.setFont(labelFont);
+        confirmPasswordLabel.setForeground(labelColor);
+        confirmPasswordLabel.setBounds(x, y, labelWidth, 30);
         panel.add(confirmPasswordLabel);
 
-        JPasswordField confirmPasswordField = new JPasswordField();
-        confirmPasswordField.setBounds(250, 250, 300, 30);
+        confirmPasswordField.setBounds(x + labelWidth + labelTextFieldGap, y, textFieldWidth, 30);
         panel.add(confirmPasswordField);
 
-        JLabel phoneNumberLabel = new JLabel("Phone Number:");
-        phoneNumberLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        phoneNumberLabel.setForeground(Color.WHITE);
-        phoneNumberLabel.setBounds(100, 300, 150, 30);
-        panel.add(phoneNumberLabel);
-
-        JTextField phoneNumberField = new JTextField();
-        phoneNumberField.setBounds(250, 300, 300, 30);
-        panel.add(phoneNumberField);
-
-        JLabel dobLabel = new JLabel("Date of Birth:");
-        dobLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        dobLabel.setForeground(Color.WHITE);
-        dobLabel.setBounds(100, 350, 120, 30);
-        panel.add(dobLabel);
-
-        JTextField dobField = new JTextField();
-        dobField.setBounds(250, 350, 300, 30);
-        panel.add(dobField);
+        y += 50;
 
         JLabel genderLabel = new JLabel("Gender:");
-        genderLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        genderLabel.setForeground(Color.WHITE);
-        genderLabel.setBounds(100, 400, 80, 30);
+        genderLabel.setFont(labelFont);
+        genderLabel.setForeground(labelColor);
+        genderLabel.setBounds(x, y, labelWidth, 30);
         panel.add(genderLabel);
 
-        // Gender ComboBox
-        String[] genders = {"Male", "Female", "Other"};
-        JComboBox<String> genderComboBox = new JComboBox<>(genders);
-        genderComboBox.setBounds(250, 400, 150, 30);
+        genderComboBox.setBounds(x + labelWidth + labelTextFieldGap, y, textFieldWidth, 30);
         panel.add(genderComboBox);
 
-        JButton registerButton = new JButton("Register");
-        registerButton.setForeground(Color.WHITE);
-        registerButton.setBackground(new Color(54, 100, 139));
-        registerButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Handle the registration logic here
-                WelcomeView welcomeView = new WelcomeView();
-                welcomeView.setVisible(true);
-                dispose();
-            }
-        });
-        registerButton.setFont(new Font("Arial", Font.BOLD, 16));
-        registerButton.setBounds(250, 450, 150, 40);
+        y += 50;
+
+        JLabel dobLabel = new JLabel("Date of Birth:");
+        dobLabel.setFont(labelFont);
+        dobLabel.setForeground(labelColor);
+        dobLabel.setBounds(x, y, labelWidth, 30);
+        panel.add(dobLabel);
+
+        dateChooser.setBounds(x + labelWidth + labelTextFieldGap, y, textFieldWidth, 30);
+        panel.add(dateChooser);
+
+        y += 50;
+
+        registerButton = new JButton("Register");
+        customizeButton(registerButton);
+        registerButton.addActionListener(e -> openWelcomeView());
+        registerButton.setBounds(x + labelWidth, y, textFieldWidth, 40);
         panel.add(registerButton);
 
-        // Back Button with Icon
-        JButton backButton = new JButton("Back");
-        backButton.setForeground(Color.WHITE);
-        backButton.setBackground(new Color(54, 100, 139));
-        backButton.setIcon(new ImageIcon("path_to_your_icon.png")); // Replace with the path to your icon
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Navigate back to the WelcomeView
-                WelcomeView welcomeView = new WelcomeView();
-                welcomeView.setVisible(true);
-                dispose();
-            }
-        });
-        backButton.setFont(new Font("Arial", Font.BOLD, 16));
-        backButton.setBounds(100, 450, 150, 40);
+        backButton = new JButton("Back");
+        customizeButton(backButton);
+        backButton.addActionListener(e -> openWelcomeView());
+        backButton.setBounds(x, y, labelWidth, 40);
         panel.add(backButton);
 
-        setMinimumSize(new Dimension(800, 600));
-        setBounds(100, 100, 800, 600);
+        pack();
+        setLocationRelativeTo(null);
     }
 
-   
+    private void customizeButton(JButton button) {
+        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(54, 100, 139));
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+
+    private void openWelcomeView() {
+        String fullName = fullNameField.getText();
+        String emailAddress = emailField.getText();
+        String password = new String(passwordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword());
+        String selectedGender = (String) genderComboBox.getSelectedItem();
+        java.sql.Date dateOfBirth = new java.sql.Date(dateChooser.getDate().getTime());
+
+        // Perform validation (check if passwords match, etc.)
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(null, "Passwords do not match. Please try again.");
+            return;
+        }
+
+        // Database insertion logic
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String insertQuery = "INSERT INTO users (username, password, role, created_at, full_name, email_address, gender, date_of_birth) VALUES (?, ?, ?, NOW(), ?, ?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                preparedStatement.setString(1, emailAddress);
+                preparedStatement.setString(2, password);
+                preparedStatement.setString(3, "user");  // Set the default role to "user"
+                preparedStatement.setString(4, fullName);
+                preparedStatement.setString(5, emailAddress);
+                preparedStatement.setString(6, selectedGender);
+                preparedStatement.setDate(7, dateOfBirth);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Registration successful!");
+                    dispose();  // Close the RegisterView
+                    // Open the WelcomeView (or any other desired view)
+                    WelcomeView welcomeView = new WelcomeView();
+                    welcomeView.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Registration failed. Please try again.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error: Registration failed.");
+        }
+    }
+
 }
