@@ -3,6 +3,7 @@ package javagui;
 import javax.swing.*;
 
 import dbConnection.DatabaseConnection;
+import services.UserDAO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -85,8 +86,8 @@ public class Login extends JFrame {
 	        panel.add(passLabel);
 
 	        JButton loginButton = new JButton("Login");
-	        customizeButton(loginButton);
-	        loginButton.addActionListener(e -> authenticateUser());
+	        customizeButton(loginButton);        
+	        loginButton.addActionListener(e ->  authenticateUser( ));
 	        loginButton.setBounds(230, 340, 180, 40);
 	        panel.add(loginButton);
 
@@ -117,7 +118,8 @@ public class Login extends JFrame {
 	                    if (resultSet.next()) {
 	                        // Authentication successful
 	                        JOptionPane.showMessageDialog(null, "Login successful!");
-	                        openMenuView();
+	                        String userId = resultSet.getString(1);
+	                        openMenuView(userId);
 	                    } else {
 	                        // Authentication failed
 	                        JOptionPane.showMessageDialog(null, "Invalid username or password. Please try again.");
@@ -130,9 +132,11 @@ public class Login extends JFrame {
 	        }
 	    }
 
-	    private void openMenuView() {
-	        Menu menuView = new Menu();
+	       
+	    private void openMenuView(String userId) {
+	        Menu menuView = new Menu(userId);
 	        menuView.setVisible(true);
 	        dispose();
+	    	
 	    }
 }
