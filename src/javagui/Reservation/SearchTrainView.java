@@ -1,7 +1,6 @@
 package javagui.Reservation;
 
 import com.toedter.calendar.JDateChooser;
-
 import services.ReservationDAO;
 
 import javax.swing.*;
@@ -23,6 +22,13 @@ public class SearchTrainView extends JFrame {
         setPreferredSize(new Dimension(800, 600));
         setResizable(false);
 
+        initializeUI();
+
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    private void initializeUI() {
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
         contentPane.setBackground(new Color(248, 248, 248));
@@ -48,12 +54,11 @@ public class SearchTrainView extends JFrame {
         int comboBoxWidth = 150;
         int comboBoxHeight = 30;
 
-        createLabelAndComboBox(panel, "From:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, getCityOptions());
+        fromComboBox = createLabelAndComboBox(panel, "From:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, getCityOptions());
         labelY += labelComboBoxGap;
         comboBoxY += labelComboBoxGap;
-//        loginButton.addActionListener(e -> authenticateUser());
 
-        createLabelAndComboBox(panel, "To:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, getCityOptions());
+        toComboBox = createLabelAndComboBox(panel, "To:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, getCityOptions());
         labelY += labelComboBoxGap;
         comboBoxY += labelComboBoxGap;
 
@@ -77,15 +82,19 @@ public class SearchTrainView extends JFrame {
         reservationButton.setBackground(new Color(54, 100, 139));
         reservationButton.setFont(new Font("Arial", Font.BOLD, 16));
         reservationButton.setBounds(300, 400, 150, 40);
-        reservationButton.addActionListener(e -> openRegisterView());
+        reservationButton.addActionListener(e -> openSearchResultsView());
         panel.add(reservationButton);
-
-        pack();
-        setLocationRelativeTo(null);
     }
-    private void openRegisterView() {
-    	SearchResultsView searchResultsView = new SearchResultsView();
-    	searchResultsView.setVisible(true);
+
+    private void openSearchResultsView() {
+        String selectedFrom = (String) fromComboBox.getSelectedItem();
+        String selectedTo = (String) toComboBox.getSelectedItem();
+        String selectedDate = formatDate(dateChooser.getDate());
+        String selectedTime = (String) timeComboBox.getSelectedItem();
+        String selectedClass = (String) classComboBox.getSelectedItem();
+
+        SearchResultsView searchResultsView = new SearchResultsView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
+        searchResultsView.setVisible(true);
         dispose();
     }
 
@@ -115,7 +124,7 @@ public class SearchTrainView extends JFrame {
 
     private String[] getTimeOptions() {
         List<String> timeOptions = new ArrayList<>();
-        for (int hour = 1; hour <= 24; hour += 3 ) {
+        for (int hour = 1; hour <= 24; hour += 3) {
             for (int minute = 0; minute < 60; minute += 60) {
                 String time = String.format("%02d:%02d", hour, minute);
                 timeOptions.add(time);
@@ -125,8 +134,15 @@ public class SearchTrainView extends JFrame {
         return timeOptions.toArray(new String[0]);
     }
 
+    private String[] getClassOptions() {
+        return new String[]{"Economy", "Premium", "Salon"};
+    }
 
-	 private String[] getClassOptions() {
-	        return new String[]{"Economy", "Premium", "Salon"};
-	        }
+    private String formatDate(java.util.Date date) {
+        // You need to implement a proper date formatting logic based on your requirements
+        // For simplicity, I'll use a basic formatting method
+        // You may use SimpleDateFormat or other date formatting libraries for more sophisticated formatting
+        // This is just an example
+        return date.toString();
+    }
 }

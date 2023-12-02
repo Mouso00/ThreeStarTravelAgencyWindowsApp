@@ -6,6 +6,9 @@ public class TrainRecord {
     private String time;
     private double price;
 
+    public TrainRecord() {
+    	
+    }
     public TrainRecord(int trainNumber, String seatNumber, String time, double price) {
         this.trainNumber = trainNumber;
         this.seatNumber = seatNumber;

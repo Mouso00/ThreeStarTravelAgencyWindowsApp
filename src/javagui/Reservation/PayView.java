@@ -41,8 +41,7 @@ public class PayView extends JFrame {
         backButton.setBackground(new Color(54, 100, 139));
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                openAvailableSeatView();
-                dispose();  // Close the current view if needed
+              
             }
         });
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
@@ -53,9 +52,5 @@ public class PayView extends JFrame {
         setBounds(100, 100, 800, 600);
     }
 
-    private void openAvailableSeatView() {
-        AvailableSeatView availableSeatView = new AvailableSeatView();
-        availableSeatView.setVisible(true);
-        dispose();  // Close the current view if needed
-    }
+   
 }

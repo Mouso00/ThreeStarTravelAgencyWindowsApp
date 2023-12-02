@@ -6,12 +6,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class WelcomeView extends JFrame {
+
     public WelcomeView() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Welcome");
         setPreferredSize(new Dimension(800, 600));
         setResizable(false);
 
+        initializeUI();
+
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    private void initializeUI() {
         JPanel contentPane = new JPanel(new BorderLayout());
         setContentPane(contentPane);
 
@@ -64,9 +72,6 @@ public class WelcomeView extends JFrame {
 
         // Add more vertical glue to center the buttons
         panel.add(Box.createVerticalGlue());
-
-        pack();
-        setLocationRelativeTo(null);
     }
 
     private void customizeButton(JButton button) {

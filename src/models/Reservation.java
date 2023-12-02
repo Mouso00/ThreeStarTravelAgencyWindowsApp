@@ -1,27 +1,62 @@
 package models;
 
-import java.sql.Timestamp;
-
 public class Reservation {
-    private int reservation_id;
-    private int user_id;
-    private int passenger_id;
-    private int train_id; // Assuming train_id is a foreign key referencing the trains table
-    private String class_type;
-    private java.sql.Date date_of_journey;
-    private String source_location;
-    private String destination_location;
-    private String status;
-    private Timestamp created_at;
-    private Integer closed_by_user_id;
+	 private int reservationId;
+    private String from;
+    private String to;
+    private String date;
+    private String time;
+    private String travelClass;
+    private String seat;
+    private double price;
+    private String status; // Assuming there's a status field
 
-    // Getters and Setters (omitted for brevity)
-
-    public int getTrain_id() {
-        return train_id;
+    public Reservation(String from, String to, String date, String time, String travelClass, String selectedSeat, double price, int userId) {
+        this.from = from;
+        this.to = to;
+        this.date = date;
+        this.time = time;
+        this.travelClass = travelClass;
+        this.seat = selectedSeat;
+        this.price = price;
+    }
+    public int getReservationId() {
+        return reservationId;
     }
 
-    public void setTrain_id(int train_id) {
-        this.train_id = train_id;
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
+    }
+    // Getter methods
+    public String getFrom() {
+        return from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getTravelClass() {
+        return travelClass;
+    }
+
+    public String getSeat() {
+        return seat;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }
