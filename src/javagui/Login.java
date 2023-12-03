@@ -63,7 +63,7 @@ public class Login extends JFrame {
         panel.setBackground(new Color(54, 100, 139));
         panel.setBounds(250, 0, 550, 600);
         contentPane.add(panel);
-
+        
         JLabel titleLabel = new JLabel("Welcome to 3* Travel");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
@@ -119,7 +119,6 @@ public class Login extends JFrame {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         // Authentication successful
-                        JOptionPane.showMessageDialog(null, "Login successful!");
                         String userId = resultSet.getString(1);
                         openMenuView(userId);
                     } else {
