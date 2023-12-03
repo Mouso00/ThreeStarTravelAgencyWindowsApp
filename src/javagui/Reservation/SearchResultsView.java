@@ -150,8 +150,16 @@ public class SearchResultsView extends JFrame {
 
 
     private String[] getSeatOptions() {
-        // Replace this with your own logic to get seat options
-        // For example, you can retrieve seat information from a database
-        return new String[]{"Seat 1", "Seat 2", "Seat 3", "Seat 4"};
+        
+    	return generateSeatOptions(25);
+    }
+    private String[] generateSeatOptions(int limit) {
+        String[] seatOptions = new String[limit];
+        
+        for (int i = 1; i <= limit; i++) {
+            seatOptions[i - 1] = String.valueOf(i);
+        }
+        
+        return seatOptions;
     }
 }

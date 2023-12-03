@@ -194,9 +194,29 @@ public class ConfirmAndProceedView extends JFrame {
     }
 
     private String generateRandomSeatNumber() {
-        // Generate a random 2-digit seat number
-        return String.format("%02d", (int) (Math.random() * 100));
+        String seatClassPrefix;
+        
+        switch (selectedClass) {
+            case "Economy":
+                seatClassPrefix = "E" + selectedSeat  ;
+                break;
+            case "Premium":
+                seatClassPrefix = "P" + selectedSeat;
+                break;
+            case "Salon":
+                seatClassPrefix = "S" + selectedSeat;
+                break;
+            default:
+                seatClassPrefix = "U"; // U for unknown or default class
+        }
+
+     
+
+
+        // Concatenate the seat class prefix and seat number
+        return seatClassPrefix ;
     }
+
 
 
     private void openSearchResultsView() {

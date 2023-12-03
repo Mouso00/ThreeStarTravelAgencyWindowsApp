@@ -1,6 +1,7 @@
 package models;
 
 public class Reservation {
+	private int id;
 	private int trainNumber;
     private String from;
     private String to;
@@ -15,8 +16,8 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(int trainNumber, String from, String to, String date, String time, String travelClass, String selectedSeat, double price, String userId) {
-       
+    public Reservation(int id,int trainNumber, String from, String to, String date, String time, String travelClass, String selectedSeat, double price, String userId) {
+        this.id =id;
         this.trainNumber = trainNumber;
         this.from = from;
         this.to = to;
@@ -26,12 +27,12 @@ public class Reservation {
         this.seat = selectedSeat;
         this.price = price;
     }
-    public String getClosedByUserId() {
-        return closedByUserId;
+    public int getId() {
+        return id;
     }
 
-    public void setClosedByUserId(String closedByUserId) {
-        this.closedByUserId = closedByUserId;
+    public void getId(int id) {
+        this.id = id;
     }
  
     public String getFrom() {
@@ -57,7 +58,7 @@ public class Reservation {
     public void setDate(String selectedDate) {
         this.date = selectedDate;
     }
-
+    
     public String getTime() {
         return time;
     }
