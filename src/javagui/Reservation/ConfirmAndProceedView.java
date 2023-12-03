@@ -8,10 +8,11 @@ import services.ReservationDAO;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class ConfirmAndProceedView extends JFrame {
 	
-    private String userIdString;
+    private String userId;
     private String selectedFrom;
     private String selectedTo;
     private String selectedDate;
@@ -20,8 +21,7 @@ public class ConfirmAndProceedView extends JFrame {
     private String selectedSeat;
 
     
-    public ConfirmAndProceedView(String userIdString, String from, String to, String date, String time, String travelClass, String selectedSeat) {
-        this.userIdString = userIdString;
+    public ConfirmAndProceedView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
         this.selectedFrom = from;
         this.selectedTo = to;
         this.selectedDate = date;
@@ -31,6 +31,7 @@ public class ConfirmAndProceedView extends JFrame {
 
         initializeUI();
     }
+
 
 
 
@@ -106,7 +107,7 @@ public class ConfirmAndProceedView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 showConfirmationMessage();
                 // Call the method to insert reservation into the database
-                insertReservationIntoDatabase(selectedSeat);
+               
             }
         });
         agreeAndPayButton.setFont(new Font("Arial", Font.BOLD, 16));
@@ -152,34 +153,37 @@ public class ConfirmAndProceedView extends JFrame {
     }
     private void showConfirmationMessage() {
         int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to book this trip?", "Confirmation", JOptionPane.YES_NO_OPTION);
+        JOptionPane.showMessageDialog(null, userId);
         if (choice == JOptionPane.YES_OPTION) {
-            openPayView();
-            dispose();
-        }
-    }
-    private void insertReservationIntoDatabase(String selectedSeat) {
-        int userId = 0;  // Default value
-
-        try {
-            if (userIdString != null && !userIdString.isEmpty()) {
-                userId = Integer.parseInt(userIdString);
+            if (insertReservation()) {
+                openPayView();
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to book the trip. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NumberFormatException e) {
-            // Handle the case where userIdString is not a valid integer
-            // You can log the error or show a message to the user
-            e.printStackTrace();
         }
-
-        // Create a Reservation object with the selected information
-        Reservation reservation = new Reservation(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat, calculatePrice(), userId);
-
-        // Call the insertReservation method from ReservationDAO
-        ReservationDAO.insertReservation(reservation);
     }
+   
+    private boolean insertReservation() {
+        try {
+            Reservation reservation = new Reservation();
+            reservation.setFrom(selectedFrom);
+            reservation.setTo(selectedTo);
+            reservation.setDate(selectedDate);
+            reservation.setTime(selectedTime);
+            reservation.setTravelClass(selectedClass);
+            reservation.setSeat(selectedSeat);
+            reservation.setPrice(calculatePrice()); // You may need to modify this based on your pricing logic
+            reservation.setStatus("Pending"); // Set an appropriate status
 
+            ReservationDAO.insertReservation(reservation);
+            return true; // Return true for success
 
-
-
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle the exception according to your needs
+            return false; // Return false for failure
+        }
+    }
 
     private void openSearchResultsView() {
         SearchResultsView searchResultsView = new SearchResultsView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);

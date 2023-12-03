@@ -18,7 +18,7 @@ public class SearchResultsView extends JFrame {
     private String selectedDate;
     private String selectedTime;
     private String selectedClass;
-    private String userIdString; 
+   
     private JComboBox<String> seatComboBox;
 
     public SearchResultsView(String from, String to, String date, String time, String travelClass) {
@@ -143,7 +143,7 @@ public class SearchResultsView extends JFrame {
     }
 
     private void openConfirmAndProceedView(String selectedSeat) {
-        ConfirmAndProceedView confirmAndProceedView = new ConfirmAndProceedView(userIdString, selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
+        ConfirmAndProceedView confirmAndProceedView = new ConfirmAndProceedView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
         confirmAndProceedView.setVisible(true);
     }
 
