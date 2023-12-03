@@ -7,7 +7,20 @@ import java.awt.event.ActionListener;
 
 public class PayView extends JFrame {
 
-    public PayView() {
+	 private String userId;
+	    private String selectedFrom;
+	    private String selectedTo;
+	    private String selectedDate;
+	    private String selectedTime;
+	    private String selectedClass;
+	    private String selectedSeat;
+    public PayView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
+    	 this.selectedFrom = from;
+         this.selectedTo = to;
+         this.selectedDate = date;
+         this.selectedTime = time;
+         this.selectedClass = travelClass;
+         this.selectedSeat = selectedSeat;
         initializeUI();
     }
 
@@ -41,7 +54,9 @@ public class PayView extends JFrame {
         backButton.setBackground(new Color(54, 100, 139));
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-              
+            	openConfirmAndProceedView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
+
+                dispose();
             }
         });
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
@@ -52,5 +67,10 @@ public class PayView extends JFrame {
         setBounds(100, 100, 800, 600);
     }
 
-   
+    private void openConfirmAndProceedView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
+        ConfirmAndProceedView confirmAndProceedView = new ConfirmAndProceedView(from, to, date, time, travelClass, selectedSeat);
+        confirmAndProceedView.setVisible(true);
+        dispose();
+    }
+
 }

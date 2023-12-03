@@ -39,23 +39,27 @@ public class ReservationDAO {
 	    return new String[]{""}; // Return a default value if there's an error
 	}
 	
-	private static final String INSERT_RESERVATION_QUERY = "INSERT INTO reservations (train_number, class_type, date_of_journey, source_location, destination_location, status) VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_RESERVATION_QUERY = "INSERT INTO reservations (train_number, class_type, date_of_journey, source_location, destination_location, status,time_of_journey,seat,price) VALUES (?,?,?,?, ?, ?, ?, ?, ?)";
 
 	public static void insertReservation(Reservation reservation) {
 	    try (Connection connection = DatabaseConnection.getConnection();
 	         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RESERVATION_QUERY)) {
 
-	        preparedStatement.setString(1, reservation.getFrom());
-	        preparedStatement.setString(2, reservation.getTo());
+	    	 preparedStatement.setInt(1, reservation.getTrainNumber());
+	            preparedStatement.setString(2, reservation.getTravelClass());
 
 	        // Convert the date string to the MySQL date format 'YYYY-MM-DD'
 	        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 	        Date parsedDate = new Date(dateFormat.parse(reservation.getDate()).getTime());
 	        preparedStatement.setDate(3, parsedDate);
 
-	        preparedStatement.setString(4, reservation.getTime());
-	        preparedStatement.setString(5, reservation.getTravelClass());
-	        preparedStatement.setString(6, reservation.getSeat());
+	        preparedStatement.setString(4, reservation.getFrom());
+	        preparedStatement.setString(5, reservation.getTo());
+	        preparedStatement.setString(6, reservation.getStatus());
+	        preparedStatement.setString(7, reservation.getTime());
+	        preparedStatement.setString(8, reservation.getSeat());
+	        preparedStatement.setDouble(9, reservation.getPrice());
+
 
 	        preparedStatement.executeUpdate();
 

@@ -20,7 +20,9 @@ public class ConfirmAndProceedView extends JFrame {
     private String selectedClass;
     private String selectedSeat;
 
-    
+    public ConfirmAndProceedView() {
+    	
+    }
     public ConfirmAndProceedView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
         this.selectedFrom = from;
         this.selectedTo = to;
@@ -167,12 +169,13 @@ public class ConfirmAndProceedView extends JFrame {
     private boolean insertReservation() {
         try {
             Reservation reservation = new Reservation();
+            reservation.setTrainNumber(generateRandomTrainNumber());
+            reservation.setSeat(generateRandomSeatNumber());
             reservation.setFrom(selectedFrom);
             reservation.setTo(selectedTo);
             reservation.setDate(selectedDate);
             reservation.setTime(selectedTime);
             reservation.setTravelClass(selectedClass);
-            reservation.setSeat(selectedSeat);
             reservation.setPrice(calculatePrice()); // You may need to modify this based on your pricing logic
             reservation.setStatus("Pending"); // Set an appropriate status
 
@@ -185,6 +188,17 @@ public class ConfirmAndProceedView extends JFrame {
         }
     }
 
+    private int generateRandomTrainNumber() {
+        // Generate a random 3-digit train number
+        return (int) (Math.random() * 900) + 100;
+    }
+
+    private String generateRandomSeatNumber() {
+        // Generate a random 2-digit seat number
+        return String.format("%02d", (int) (Math.random() * 100));
+    }
+
+
     private void openSearchResultsView() {
         SearchResultsView searchResultsView = new SearchResultsView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
         searchResultsView.setVisible(true);
@@ -192,7 +206,8 @@ public class ConfirmAndProceedView extends JFrame {
     }
 
     private void openPayView() {
-        PayView payView = new PayView();
+    	PayView payView = new PayView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
+
         payView.setVisible(true);
     }
 }
