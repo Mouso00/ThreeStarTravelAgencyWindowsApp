@@ -7,20 +7,20 @@ import java.awt.event.ActionListener;
 
 public class PayView extends JFrame {
 
-	 private String userId;
-	    private String selectedFrom;
-	    private String selectedTo;
-	    private String selectedDate;
-	    private String selectedTime;
-	    private String selectedClass;
-	    private String selectedSeat;
+    private String selectedFrom;
+    private String selectedTo;
+    private String selectedDate;
+    private String selectedTime;
+    private String selectedClass;
+    private String selectedSeat;
+
     public PayView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
-    	 this.selectedFrom = from;
-         this.selectedTo = to;
-         this.selectedDate = date;
-         this.selectedTime = time;
-         this.selectedClass = travelClass;
-         this.selectedSeat = selectedSeat;
+        this.selectedFrom = from;
+        this.selectedTo = to;
+        this.selectedDate = date;
+        this.selectedTime = time;
+        this.selectedClass = travelClass;
+        this.selectedSeat = selectedSeat;
         initializeUI();
     }
 
@@ -45,23 +45,80 @@ public class PayView extends JFrame {
         titleLabel.setBounds(330, 30, 200, 40);
         panel.add(titleLabel);
 
+        // Add JLabels to display receipt information
+        JLabel fromLabel = new JLabel("From: " + selectedFrom);
+        fromLabel.setForeground(Color.WHITE);
+        fromLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        fromLabel.setBounds(50, 100, 400, 30);
+        panel.add(fromLabel);
+
+        JLabel toLabel = new JLabel("To: " + selectedTo);
+        toLabel.setForeground(Color.WHITE);
+        toLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        toLabel.setBounds(50, 130, 400, 30);
+        panel.add(toLabel);
+
+        JLabel dateLabel = new JLabel("Date: " + selectedDate);
+        dateLabel.setForeground(Color.WHITE);
+        dateLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        dateLabel.setBounds(50, 160, 400, 30);
+        panel.add(dateLabel);
+
+        JLabel timeLabel = new JLabel("Time: " + selectedTime);
+        timeLabel.setForeground(Color.WHITE);
+        timeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        timeLabel.setBounds(50, 190, 400, 30);
+        panel.add(timeLabel);
+
+        JLabel classLabel = new JLabel("Class: " + selectedClass);
+        classLabel.setForeground(Color.WHITE);
+        classLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        classLabel.setBounds(50, 220, 400, 30);
+        panel.add(classLabel);
+
+        JLabel seatLabel = new JLabel("Seat: " + selectedSeat);
+        seatLabel.setForeground(Color.WHITE);
+        seatLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        seatLabel.setBounds(50, 250, 400, 30);
+        panel.add(seatLabel);
+
+        // Placeholder for PNR
+        JLabel pnrLabel = new JLabel("PNR: (Generate PNR here)");
+        pnrLabel.setForeground(Color.WHITE);
+        pnrLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        pnrLabel.setBounds(50, 280, 400, 30);
+        panel.add(pnrLabel);
+
         // Add other components and UI setup for PayView here...
 
-        int yOffset = 100;
+        int yOffset = 350;
 
         JButton backButton = new JButton("Back");
         backButton.setForeground(Color.WHITE);
         backButton.setBackground(new Color(54, 100, 139));
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	openConfirmAndProceedView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
-
+                // Implement the action when the back button is clicked
                 dispose();
             }
         });
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
-        backButton.setBounds(350, yOffset, 100, 40);
+        backButton.setBounds(150, yOffset, 100, 40);
         panel.add(backButton);
+
+        JButton bookAgainButton = new JButton("Book Again");
+        bookAgainButton.setForeground(Color.WHITE);
+        bookAgainButton.setBackground(new Color(54, 100, 139));
+        bookAgainButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Implement the action when the "Book Again" button is clicked
+                openConfirmAndProceedView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
+                dispose();
+            }
+        });
+        bookAgainButton.setFont(new Font("Arial", Font.BOLD, 16));
+        bookAgainButton.setBounds(300, yOffset, 150, 40);
+        panel.add(bookAgainButton);
 
         setMinimumSize(new Dimension(800, 600));
         setBounds(100, 100, 800, 600);
@@ -70,7 +127,7 @@ public class PayView extends JFrame {
     private void openConfirmAndProceedView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
         ConfirmAndProceedView confirmAndProceedView = new ConfirmAndProceedView(from, to, date, time, travelClass, selectedSeat);
         confirmAndProceedView.setVisible(true);
-        dispose();
     }
+
 
 }
