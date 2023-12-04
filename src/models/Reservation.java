@@ -1,6 +1,7 @@
 package models;
 
 public class Reservation {
+	 private int trainId;
     private int id;
     private int trainNumber;
     private String from;
@@ -107,5 +108,13 @@ public class Reservation {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+    
+    public int getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(int trainId) {
+        this.trainId = trainId;
     }
 }

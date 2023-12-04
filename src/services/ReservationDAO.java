@@ -18,7 +18,7 @@ import models.User;
 
 public class ReservationDAO {
     private static final String GET_CITIES_QUERY = "SELECT * FROM cities";
-    private static final String INSERT_RESERVATION_QUERY = "INSERT INTO reservations (train_number, class_type, date_of_journey, source_location, destination_location, status, time_of_journey, seat, price, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_RESERVATION_QUERY = "INSERT INTO reservations (train_number, class_type, date_of_journey, source_location, destination_location, status, time_of_journey, seat, price, pnr_enquiry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     public static String[] getCityOptions() {
         try (Connection connection = DatabaseConnection.getConnection();
@@ -41,6 +41,12 @@ public class ReservationDAO {
         return new String[]{""}; // Return a default value if there's an error
     }
 
+    private static String generatePNR() {
+        // Implement your logic to generate a unique PNR
+        // This can be a combination of letters, numbers, or any format you prefer
+        return "PNR" + System.currentTimeMillis();
+    }
+
     public static void insertReservation(Reservation reservation) {
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RESERVATION_QUERY, Statement.RETURN_GENERATED_KEYS)) {
@@ -59,7 +65,7 @@ public class ReservationDAO {
             preparedStatement.setString(7, reservation.getTime());
             preparedStatement.setString(8, reservation.getSeat());
             preparedStatement.setDouble(9, reservation.getPrice());
-            preparedStatement.setString(10, reservation.getUserId());
+            preparedStatement.setString(10, generatePNR()); // Set PNR value
 
             preparedStatement.executeUpdate();
 
@@ -68,7 +74,6 @@ public class ReservationDAO {
         }
     }
 
-    // Assuming that the User table has a column named 'id' for the user's ID
     private static final String INSERT_USER_QUERY = "INSERT INTO users (username, password, role, full_name, email_address, gender, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     public static int insertUser(User user) {
