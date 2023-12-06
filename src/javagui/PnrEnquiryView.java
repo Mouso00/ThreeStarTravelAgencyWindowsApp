@@ -10,7 +10,7 @@ public class PnrEnquiryView extends JFrame {
     private JTextField pnrField;
     private JTextArea enquiryInfoArea;
 
-    public PnrEnquiryView() {
+    public PnrEnquiryView(String userId) {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("PNR Enquiry View");
         setBounds(100, 100, 800, 700);
@@ -89,13 +89,13 @@ public class PnrEnquiryView extends JFrame {
 
         // Back to Main Menu button
         JButton btnBackToMainMenu = createStyledButton("Back to Main Menu");
-        btnBackToMainMenu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Menu mainMenu = new Menu();
-                mainMenu.setVisible(true);
-                dispose();
-            }
-        });
+//        btnBackToMainMenu.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                Menu mainMenu = new Menu();
+//                mainMenu.setVisible(true);
+//                dispose();
+//            }
+//        });
 
         GridBagConstraints gbc_btnBackToMainMenu = new GridBagConstraints();
         gbc_btnBackToMainMenu.gridx = 1; // Centered horizontally

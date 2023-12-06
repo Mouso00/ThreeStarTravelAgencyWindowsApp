@@ -18,7 +18,8 @@ import models.User;
 
 public class ReservationDAO {
     private static final String GET_CITIES_QUERY = "SELECT * FROM cities";
-    private static final String INSERT_RESERVATION_QUERY = "INSERT INTO reservations (train_number, class_type, date_of_journey, source_location, destination_location, status, time_of_journey, seat, price, pnr_enquiry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_RESERVATION_QUERY = "INSERT INTO reservations (train_number, class_type, date_of_journey, source_location, destination_location, status, time_of_journey, seat, price,user_id) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
 
     public static String[] getCityOptions() {
         try (Connection connection = DatabaseConnection.getConnection();
@@ -26,7 +27,6 @@ public class ReservationDAO {
              ResultSet resultSet = statement.executeQuery(GET_CITIES_QUERY)) {
 
             List<String> cityOptions = new ArrayList<>();
-
             while (resultSet.next()) {
                 String cityName = resultSet.getString("city_name");
                 cityOptions.add(cityName);
@@ -65,10 +65,15 @@ public class ReservationDAO {
             preparedStatement.setString(7, reservation.getTime());
             preparedStatement.setString(8, reservation.getSeat());
             preparedStatement.setDouble(9, reservation.getPrice());
-            preparedStatement.setString(10, generatePNR()); // Set PNR value
+            preparedStatement.setString(10, reservation.getUserId());
 
             preparedStatement.executeUpdate();
 
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int generatedKey = generatedKeys.getInt(1);
+                // Do something with the generated key if needed
+            }
         } catch (SQLException | ParseException e) {
             e.printStackTrace(); // Handle the exception according to your needs
         }

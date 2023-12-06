@@ -14,20 +14,19 @@ public class Reservation {
     private String status;
     private String userId;
 
-    public Reservation() {
-    }
 
-    public Reservation(int trainNumber, String from, String to, String date, String time, String travelClass, String seat, double price, String status, String userId) {
-        this.trainNumber = trainNumber;
+    public Reservation(String userId, String from, String to, String date, String time, String travelClass) {
+    	  this.userId = userId;
+//    	this.trainNumber = trainNumber;
         this.from = from;
         this.to = to;
         this.date = date;
         this.time = time;
         this.travelClass = travelClass;
-        this.seat = seat;
-        this.price = price;
-        this.status = status;
-        this.userId = userId;
+//        this.seat = seat;
+//        this.price = price;
+//        this.status = status;
+      
     }
 
     public String getFrom() {
@@ -105,7 +104,6 @@ public class Reservation {
     public String getUserId() {
         return userId;
     }
-
     public void setUserId(String userId) {
         this.userId = userId;
     }

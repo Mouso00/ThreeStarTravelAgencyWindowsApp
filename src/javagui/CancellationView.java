@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CancellationView extends JFrame {
-    public CancellationView() {
+    public CancellationView(String userId) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Cancellation Form");
 
@@ -68,14 +68,14 @@ public class CancellationView extends JFrame {
         JButton backButton = new JButton("Back");
         backButton.setForeground(Color.WHITE);
         backButton.setBackground(new Color(54, 100, 139));
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Navigate back to the Menu
-                Menu menuView = new Menu();
-                menuView.setVisible(true);
-                dispose(); // Close the current CancellationView frame
-            }
-        });
+//        backButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                // Navigate back to the Menu
+//                Menu menuView = new Menu();
+//                menuView.setVisible(true);
+//                dispose(); // Close the current CancellationView frame
+//            }
+//        });
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
         backButton.setBounds(50, 500, 100, 40);
         panel.add(backButton);
@@ -88,16 +88,5 @@ public class CancellationView extends JFrame {
         return "PNR: " + pnr + "\nTrain Number: 12345\nSeat Number: 12A\nTime: 2023-11-10 10:00 AM\nPrice: $50";
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    CancellationView cancellationView = new CancellationView();
-                    cancellationView.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+
 }

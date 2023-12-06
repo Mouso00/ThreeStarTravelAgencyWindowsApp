@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class ConfirmAndProceedView extends JFrame {
 	
-    private String userId;
+    private final String userId;
     private String selectedFrom;
     private String selectedTo;
     private String selectedDate;
@@ -20,11 +20,11 @@ public class ConfirmAndProceedView extends JFrame {
     private String selectedClass;
     private String selectedSeat;
 
-    public ConfirmAndProceedView() {
-    	
-    }
-    public ConfirmAndProceedView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
-        this.selectedFrom = from;
+ 
+    public ConfirmAndProceedView(String userId,String from, String to, String date, String time, String travelClass, String selectedSeat) {
+    	JOptionPane.showMessageDialog(null, userId);
+        this.userId = userId;
+    	this.selectedFrom = from;
         this.selectedTo = to;
         this.selectedDate = date;
         this.selectedTime = time;
@@ -165,10 +165,11 @@ public class ConfirmAndProceedView extends JFrame {
             }
         }
     }
-   
+  
     private boolean insertReservation() {
         try {
-            Reservation reservation = new Reservation();
+        	Reservation reservation = new Reservation(userId, selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
+
             reservation.setTrainNumber(generateRandomTrainNumber());
             reservation.setSeat(generateRandomSeatNumber());
             reservation.setFrom(selectedFrom);
@@ -220,13 +221,13 @@ public class ConfirmAndProceedView extends JFrame {
 
 
     private void openSearchResultsView() {
-        SearchResultsView searchResultsView = new SearchResultsView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
+        SearchResultsView searchResultsView = new SearchResultsView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
         searchResultsView.setVisible(true);
         dispose();
     }
 
     private void openPayView() {
-    	PayView payView = new PayView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
+    	PayView payView = new PayView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
 
         payView.setVisible(true);
     }

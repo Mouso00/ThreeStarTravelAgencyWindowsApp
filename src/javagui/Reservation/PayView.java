@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 public class PayView extends JFrame {
 
+	private final String userId;
     private String selectedFrom;
     private String selectedTo;
     private String selectedDate;
@@ -14,8 +15,9 @@ public class PayView extends JFrame {
     private String selectedClass;
     private String selectedSeat;
 
-    public PayView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
-        this.selectedFrom = from;
+    public PayView(String userId,String from, String to, String date, String time, String travelClass, String selectedSeat) {
+        this.userId = userId;
+    	this.selectedFrom = from;
         this.selectedTo = to;
         this.selectedDate = date;
         this.selectedTime = time;
@@ -125,7 +127,7 @@ public class PayView extends JFrame {
     }
 
     private void openConfirmAndProceedView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
-        ConfirmAndProceedView confirmAndProceedView = new ConfirmAndProceedView(from, to, date, time, travelClass, selectedSeat);
+        ConfirmAndProceedView confirmAndProceedView = new ConfirmAndProceedView(userId,from, to, date, time, travelClass, selectedSeat);
         confirmAndProceedView.setVisible(true);
     }
 

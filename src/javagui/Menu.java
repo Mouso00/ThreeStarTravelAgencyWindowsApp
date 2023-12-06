@@ -8,20 +8,11 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class Menu extends JFrame {
+	private final String userId;
 
-    public Menu() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Online Train Reservation");
-        setPreferredSize(new Dimension(800, 600));
-        setResizable(false);
-
-        initializeUI();
-
-        pack();
-        setLocationRelativeTo(null);
-    }
 
     public Menu(String userId) {
+    	this.userId = userId;
         JOptionPane.showMessageDialog(null, userId);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Online Train Reservation");
@@ -33,12 +24,6 @@ public class Menu extends JFrame {
         pack();
         setLocationRelativeTo(null);
     }
-
-    /**
-     * Initializes the user interface components for the Menu class.
-     * This method sets up the layout, creates panels, buttons, and handles their actions.
-     * It also configures the appearance of the menu, including fonts, colors, and images.
-     */
     private void initializeUI() {
         // Create the main content pane
         JPanel contentPane = new JPanel(new BorderLayout());
@@ -60,7 +45,7 @@ public class Menu extends JFrame {
         // Create a sub-panel for the buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 30));
 
-        createImageAndButton(buttonPanel, "img/reservation.png", "Make a Reservation", 150, 150, e -> openSearchTrainView());
+        createImageAndButton(buttonPanel, "img/reservation.png", "Make a Reservation", 150, 150, e -> openSearchTrainView(userId));
         createImageAndButton(buttonPanel, "img/cancellation.png", "Cancel a Reservation", 150, 150, e -> openCancellationView());
         createImageAndButton(buttonPanel, "img/pnrenquiry.png", "PNR Enquiry", 150, 150, e -> openPnrEnquiryView());
 
@@ -119,20 +104,20 @@ public class Menu extends JFrame {
         return button;
     }
 
-    private void openSearchTrainView() {
-        SearchTrainView searchTrainView = new SearchTrainView();
+    private void openSearchTrainView(String userId) {
+        SearchTrainView searchTrainView = new SearchTrainView(userId);
         searchTrainView.setVisible(true);
         dispose();
     }
 
     private void openCancellationView() {
-        CancellationView cancellationView = new CancellationView();
+        CancellationView cancellationView = new CancellationView(userId);
         cancellationView.setVisible(true);
         dispose();
     }
 
     private void openPnrEnquiryView() {
-        PnrEnquiryView pnrEnquiryView = new PnrEnquiryView();
+        PnrEnquiryView pnrEnquiryView = new PnrEnquiryView(userId);
         pnrEnquiryView.setVisible(true);
         dispose();
     }

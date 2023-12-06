@@ -12,6 +12,7 @@ import java.util.List;
 
 public class SearchResultsView extends JFrame {
 
+	private final String userId;
     private List<TrainRecord> trainRecords;
     private String selectedFrom;
     private String selectedTo;
@@ -21,8 +22,10 @@ public class SearchResultsView extends JFrame {
    
     private JComboBox<String> seatComboBox;
 
-    public SearchResultsView(String from, String to, String date, String time, String travelClass) {
-        this.selectedFrom = from;
+    public SearchResultsView(String userId,String from, String to, String date, String time, String travelClass) {
+    	JOptionPane.showMessageDialog(null, userId);
+        this.userId = userId;
+    	this.selectedFrom = from;
         this.selectedTo = to;
         this.selectedDate = date;
         this.selectedTime = time;
@@ -138,12 +141,12 @@ public class SearchResultsView extends JFrame {
     }
 
     private void openSearchTrainView() {
-        SearchTrainView searchTrainView = new SearchTrainView();
+        SearchTrainView searchTrainView = new SearchTrainView(userId);
         searchTrainView.setVisible(true);
     }
 
     private void openConfirmAndProceedView(String selectedSeat) {
-        ConfirmAndProceedView confirmAndProceedView = new ConfirmAndProceedView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
+        ConfirmAndProceedView confirmAndProceedView = new ConfirmAndProceedView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
         confirmAndProceedView.setVisible(true);
     }
 

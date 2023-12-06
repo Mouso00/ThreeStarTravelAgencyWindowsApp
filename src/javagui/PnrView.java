@@ -54,14 +54,14 @@ public class PnrView extends JFrame {
         JButton backButton = new JButton("Back to Menu");
         backButton.setForeground(Color.WHITE);
         backButton.setBackground(new Color(54, 100, 139));
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Navigate back to the Menu
-                Menu menuView = new Menu();
-                menuView.setVisible(true);
-                dispose(); // Close the current PnrView frame
-            }
-        });
+//        backButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                // Navigate back to the Menu
+//                Menu menuView = new Menu();
+//                menuView.setVisible(true);
+//                dispose(); // Close the current PnrView frame
+//            }
+//        });
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
         backButton.setBounds(350, 300, 150, 40);
         panel.add(backButton);

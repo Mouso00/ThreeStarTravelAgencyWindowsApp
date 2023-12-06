@@ -10,14 +10,19 @@ import java.util.List;
 
 public class SearchTrainView extends JFrame {
 
+	private final String userId;
     private JComboBox<String> fromComboBox;
     private JComboBox<String> toComboBox;
     private JDateChooser dateChooser;
     private JComboBox<String> timeComboBox;
     private JComboBox<String> classComboBox;
 
-    public SearchTrainView() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+    public SearchTrainView(String userId) {
+    	this.userId = userId;
+    	JOptionPane.showMessageDialog(null, userId);
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Search Train");
         setPreferredSize(new Dimension(800, 600));
         setResizable(false);
@@ -26,9 +31,9 @@ public class SearchTrainView extends JFrame {
 
         pack();
         setLocationRelativeTo(null);
-    }
+	}
 
-    private void initializeUI() {
+	private void initializeUI() {
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
         contentPane.setBackground(new Color(248, 248, 248));
@@ -82,18 +87,18 @@ public class SearchTrainView extends JFrame {
         reservationButton.setBackground(new Color(54, 100, 139));
         reservationButton.setFont(new Font("Arial", Font.BOLD, 16));
         reservationButton.setBounds(300, 400, 150, 40);
-        reservationButton.addActionListener(e -> openSearchResultsView());
+        reservationButton.addActionListener(e -> openSearchResultsView(userId));
         panel.add(reservationButton);
     }
 
-    private void openSearchResultsView() {
+    private void openSearchResultsView(String userId) {
         String selectedFrom = (String) fromComboBox.getSelectedItem();
         String selectedTo = (String) toComboBox.getSelectedItem();
         String selectedDate = formatDate(dateChooser.getDate());
         String selectedTime = (String) timeComboBox.getSelectedItem();
         String selectedClass = (String) classComboBox.getSelectedItem();
 
-        SearchResultsView searchResultsView = new SearchResultsView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
+        SearchResultsView searchResultsView = new SearchResultsView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
         searchResultsView.setVisible(true);
         dispose();
     }
