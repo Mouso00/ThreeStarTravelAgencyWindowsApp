@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import models.Reservation;
 import services.ReservationDAO;
+import services.UserDAO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -57,6 +58,13 @@ public class ConfirmAndProceedView extends JFrame {
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setBounds(280, 30, 300, 40);
         panel.add(titleLabel);
+        
+        String fullName = UserDAO.getUserFullName(userId);
+        JLabel fullNameLabel = new JLabel("Name: " + fullName);
+        fullNameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        fullNameLabel.setForeground(Color.WHITE);
+        fullNameLabel.setBounds(50, 70, 400, 20);
+        panel.add(fullNameLabel);
 
         JLabel fromLabel = new JLabel("From: " + selectedFrom);
         fromLabel.setFont(new Font("Arial", Font.PLAIN, 14));
