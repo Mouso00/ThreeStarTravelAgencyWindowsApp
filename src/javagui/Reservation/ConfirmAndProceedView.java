@@ -201,9 +201,10 @@ public class ConfirmAndProceedView extends JFrame {
         // Generate a random 3-digit train number
         return (int) (Math.random() * 900) + 100;
     }
+    
     private int generatedPnr() {
-        // Generate a random 3-digit train number
-        return (int) (Math.random() * 900) + 100;
+        // Generate a random 9-digit train number
+        return (int) (Math.random() * 999999999);
     }
 
     private String generateRandomSeatNumber() {

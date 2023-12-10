@@ -18,7 +18,8 @@ import models.User;
 
 public class ReservationDAO {
     private static final String GET_CITIES_QUERY = "SELECT * FROM cities";
-    private static final String INSERT_RESERVATION_QUERY = "INSERT INTO reservations (train_number, class_type, date_of_journey, source_location, destination_location, status, time_of_journey, seat, price,user_id) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String GET_RESERVATION_BY_PNR = "SELECT * FROM reservations WHERE pnr_of_reservation = ?";
+    private static final String INSERT_RESERVATION_QUERY = "INSERT INTO reservations (train_number, class_type, date_of_journey, source_location, destination_location, status, time_of_journey, seat, price,user_id,pnr_of_reservation) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 
     public static String[] getCityOptions() {
@@ -41,10 +42,38 @@ public class ReservationDAO {
         return new String[]{""}; // Return a default value if there's an error
     }
 
-    private static String generatePNR() {
-        // Implement your logic to generate a unique PNR
-        // This can be a combination of letters, numbers, or any format you prefer
-        return "PNR" + System.currentTimeMillis();
+    public static Reservation getReservationByPnr() {
+    	Reservation reservation = new Reservation();
+        try (Connection connection = DatabaseConnection.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(GET_RESERVATION_BY_PNR)) {
+
+        	  
+            while (resultSet.next()) {
+            	
+            	  
+                int trainumber = resultSet.getInt("train_number");
+                String classtype = resultSet.getString("class_type");
+                String dateOfJourney = resultSet.getString("date_of_journey");
+                String sourceLocation = resultSet.getString("source_location");
+                String destinationLocation = resultSet.getString("destination_location");
+                String status = resultSet.getString("status");
+                String time = resultSet.getString("time_of_journey");
+                String seat = resultSet.getString("seat");
+                double price = resultSet.getDouble("price");
+              
+                reservation.setTrainNumber(trainumber);
+            }
+           
+            
+
+           
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your needs
+        }
+
+        return reservation; // Return a default value if there's an error
     }
 
     public static void insertReservation(Reservation reservation) {
@@ -66,6 +95,7 @@ public class ReservationDAO {
             preparedStatement.setString(8, reservation.getSeat());
             preparedStatement.setDouble(9, reservation.getPrice());
             preparedStatement.setString(10, reservation.getUserId());
+            preparedStatement.setInt(11, reservation.getGenaretedPnr());
 
             preparedStatement.executeUpdate();
 

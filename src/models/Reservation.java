@@ -15,6 +15,9 @@ public class Reservation {
     private String userId;
     private int generatedPnr;
 
+    public Reservation() {
+    	
+    }
 
     public Reservation(String userId, String from, String to, String date, String time, String travelClass) {
     	  this.userId = userId;
