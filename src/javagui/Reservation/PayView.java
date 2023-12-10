@@ -14,8 +14,9 @@ public class PayView extends JFrame {
     private String selectedTime;
     private String selectedClass;
     private String selectedSeat;
+    private int generatedPnr;
 
-    public PayView(String userId,String from, String to, String date, String time, String travelClass, String selectedSeat) {
+    public PayView(String userId,String from, String to, String date, String time, String travelClass, String selectedSeat, int generatedPnr) {
         this.userId = userId;
     	this.selectedFrom = from;
         this.selectedTo = to;
@@ -23,6 +24,7 @@ public class PayView extends JFrame {
         this.selectedTime = time;
         this.selectedClass = travelClass;
         this.selectedSeat = selectedSeat;
+        this.generatedPnr =generatedPnr;
         initializeUI();
     }
 
@@ -85,7 +87,7 @@ public class PayView extends JFrame {
         panel.add(seatLabel);
 
         // Placeholder for PNR
-        JLabel pnrLabel = new JLabel("PNR: (Generate PNR here)");
+        JLabel pnrLabel = new JLabel("PNR:" + generatedPnr);
         pnrLabel.setForeground(Color.WHITE);
         pnrLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         pnrLabel.setBounds(50, 280, 400, 30);

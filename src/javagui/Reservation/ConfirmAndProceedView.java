@@ -23,7 +23,6 @@ public class ConfirmAndProceedView extends JFrame {
 
  
     public ConfirmAndProceedView(String userId,String from, String to, String date, String time, String travelClass, String selectedSeat) {
-    	JOptionPane.showMessageDialog(null, userId);
         this.userId = userId;
     	this.selectedFrom = from;
         this.selectedTo = to;
@@ -163,7 +162,6 @@ public class ConfirmAndProceedView extends JFrame {
     }
     private void showConfirmationMessage() {
         int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to book this trip?", "Confirmation", JOptionPane.YES_NO_OPTION);
-        JOptionPane.showMessageDialog(null, userId);
         if (choice == JOptionPane.YES_OPTION) {
             if (insertReservation()) {
                 openPayView();
@@ -187,6 +185,8 @@ public class ConfirmAndProceedView extends JFrame {
             reservation.setTravelClass(selectedClass);
             reservation.setPrice(calculatePrice()); // You may need to modify this based on your pricing logic
             reservation.setStatus("Pending"); // Set an appropriate status
+           
+			reservation.setGenaretedPnr(generatedPnr());
 
             ReservationDAO.insertReservation(reservation);
             return true; // Return true for success
@@ -198,6 +198,10 @@ public class ConfirmAndProceedView extends JFrame {
     }
 
     private int generateRandomTrainNumber() {
+        // Generate a random 3-digit train number
+        return (int) (Math.random() * 900) + 100;
+    }
+    private int generatedPnr() {
         // Generate a random 3-digit train number
         return (int) (Math.random() * 900) + 100;
     }
@@ -235,7 +239,7 @@ public class ConfirmAndProceedView extends JFrame {
     }
 
     private void openPayView() {
-    	PayView payView = new PayView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
+    	PayView payView = new PayView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat,generatedPnr());
 
         payView.setVisible(true);
     }

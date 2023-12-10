@@ -13,6 +13,7 @@ public class Reservation {
     private double price;
     private String status;
     private String userId;
+    private int generatedPnr;
 
 
     public Reservation(String userId, String from, String to, String date, String time, String travelClass) {
@@ -115,4 +116,12 @@ public class Reservation {
     public void setTrainId(int trainId) {
         this.trainId = trainId;
     }
+    public int getGenaretedPnr() {
+		return generatedPnr;
+		
+	}
+	public void setGenaretedPnr(int generatedPnr) {
+		this.generatedPnr = generatedPnr;
+		
+	}
 }
