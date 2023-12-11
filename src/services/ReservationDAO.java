@@ -42,39 +42,45 @@ public class ReservationDAO {
         return new String[]{""}; // Return a default value if there's an error
     }
 
-    public static Reservation getReservationByPnr() {
-    	Reservation reservation = new Reservation();
+    public static Reservation getReservationByPnr(String pnr) {
+        Reservation reservation = new Reservation();
         try (Connection connection = DatabaseConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(GET_RESERVATION_BY_PNR)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_RESERVATION_BY_PNR)) {
 
-        	  
-            while (resultSet.next()) {
-            	
-            	  
-                int trainumber = resultSet.getInt("train_number");
-                String classtype = resultSet.getString("class_type");
-                String dateOfJourney = resultSet.getString("date_of_journey");
-                String sourceLocation = resultSet.getString("source_location");
-                String destinationLocation = resultSet.getString("destination_location");
-                String status = resultSet.getString("status");
-                String time = resultSet.getString("time_of_journey");
-                String seat = resultSet.getString("seat");
-                double price = resultSet.getDouble("price");
-              
-                reservation.setTrainNumber(trainumber);
+            preparedStatement.setString(1, pnr);  // Set the value for the placeholder
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int trainNumber = resultSet.getInt("train_number");
+                    String classType = resultSet.getString("class_type");
+                    String dateOfJourney = resultSet.getString("date_of_journey");
+                    String sourceLocation = resultSet.getString("source_location");
+                    String destinationLocation = resultSet.getString("destination_location");
+                    String status = resultSet.getString("status");
+                    String time = resultSet.getString("time_of_journey");
+                    String seat = resultSet.getString("seat");
+                    double price = resultSet.getDouble("price");
+
+                    reservation.setTrainNumber(trainNumber);
+                    reservation.setTravelClass(classType);
+                    reservation.setDate(dateOfJourney);
+                    reservation.setFrom(sourceLocation);
+                    reservation.setTo(destinationLocation);
+                    reservation.setStatus(status);
+                    reservation.setTime(time);
+                    reservation.setSeat(seat);
+                    reservation.setPrice(price);
+                    // Set other fields as needed
+                }
             }
-           
-            
-
-           
 
         } catch (SQLException e) {
             e.printStackTrace(); // Handle the exception according to your needs
         }
 
-        return reservation; // Return a default value if there's an error
+        return reservation;
     }
+
 
     public static void insertReservation(Reservation reservation) {
         try (Connection connection = DatabaseConnection.getConnection();
