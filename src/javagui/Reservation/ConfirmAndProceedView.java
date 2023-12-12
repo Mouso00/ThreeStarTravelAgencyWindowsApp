@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class ConfirmAndProceedView extends JFrame {
 	
@@ -20,7 +21,9 @@ public class ConfirmAndProceedView extends JFrame {
     private String selectedTime;
     private String selectedClass;
     private String selectedSeat;
-
+    private static final Random random = new Random();
+    private static boolean isPnrGenerated = false;
+    private static int generatedPnr;
  
     public ConfirmAndProceedView(String userId,String from, String to, String date, String time, String travelClass, String selectedSeat) {
         this.userId = userId;
@@ -186,7 +189,7 @@ public class ConfirmAndProceedView extends JFrame {
             reservation.setPrice(calculatePrice()); // You may need to modify this based on your pricing logic
             reservation.setStatus("Pending"); // Set an appropriate status
            
-			reservation.setGenaretedPnr(generatedPnr());
+			reservation.setGenaretedPnr(generatePnr());
 
             ReservationDAO.insertReservation(reservation);
             return true; // Return true for success
@@ -202,9 +205,13 @@ public class ConfirmAndProceedView extends JFrame {
         return (int) (Math.random() * 900) + 100;
     }
     
-    private int generatedPnr() {
-        // Generate a random 9-digit train number
-        return (int) (Math.random() * 999999999);
+ 
+    private static int generatePnr() {
+        if (!isPnrGenerated) {
+            generatedPnr = 100_000_000 + random.nextInt(900_000_000);
+            isPnrGenerated = true;
+        }
+        return generatedPnr;
     }
 
     private String generateRandomSeatNumber() {
@@ -240,7 +247,7 @@ public class ConfirmAndProceedView extends JFrame {
     }
 
     private void openPayView() {
-    	PayView payView = new PayView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat,generatedPnr());
+    	PayView payView = new PayView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat,generatePnr());
 
         payView.setVisible(true);
     }

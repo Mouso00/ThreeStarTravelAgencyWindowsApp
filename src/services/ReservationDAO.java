@@ -105,11 +105,11 @@ public class ReservationDAO {
 
             preparedStatement.executeUpdate();
 
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                int generatedKey = generatedKeys.getInt(1);
-                // Do something with the generated key if needed
-            }
+//            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+//            if (generatedKeys.next()) {
+//                int generatedKey = generatedKeys.getInt(1);
+//                // Do something with the generated key if needed
+//            }
         } catch (SQLException | ParseException e) {
             e.printStackTrace(); // Handle the exception according to your needs
         }
