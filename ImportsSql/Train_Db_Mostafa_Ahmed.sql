@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 01:28 AM
+-- Generation Time: Dec 12, 2023 at 11:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,7 @@ CREATE TABLE `cancellations` (
 
 CREATE TABLE `cities` (
   `city_id` int(11) NOT NULL,
-  `city_name` varchar(255) NOT NULL
+  `city_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -53,11 +53,16 @@ CREATE TABLE `cities` (
 --
 
 INSERT INTO `cities` (`city_id`, `city_name`) VALUES
-(1, 'Athens'),
-(2, 'Thessaloniki'),
-(3, 'Patras'),
-(4, 'Heraklion'),
-(5, 'Larissa');
+(1, 'Αθήνα'),
+(2, 'Θεσσαλονίκη'),
+(3, 'Πάτρα'),
+(4, 'Ηράκλειο'),
+(5, 'Λάρισα'),
+(6, 'Βόλος'),
+(7, 'Ιωάννινα'),
+(8, 'Τρίκαλα'),
+(9, 'Σέρρες'),
+(10, 'Καλαμάτα');
 
 -- --------------------------------------------------------
 
@@ -119,18 +124,29 @@ CREATE TABLE `posts` (
 --
 
 CREATE TABLE `reservations` (
-  `reservation_id` int(11) NOT NULL,
+  `train_number` int(11) NOT NULL,
+  `class_type` varchar(255) NOT NULL,
+  `date_of_journey` date NOT NULL,
+  `source_location` varchar(255) NOT NULL,
+  `destination_location` varchar(255) NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `time_of_journey` time DEFAULT NULL,
+  `seat` varchar(10) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT 0.00,
+  `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `passenger_id` int(11) DEFAULT NULL,
-  `train_number` varchar(255) DEFAULT NULL,
-  `class_type` varchar(255) DEFAULT NULL,
-  `date_of_journey` date DEFAULT NULL,
-  `source_location` varchar(255) DEFAULT NULL,
-  `destination_location` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `closed_by_user_id` int(11) DEFAULT NULL
+  `pnr_of_reservation` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reservations`
+--
+
+INSERT INTO `reservations` (`train_number`, `class_type`, `date_of_journey`, `source_location`, `destination_location`, `status`, `created_at`, `time_of_journey`, `seat`, `price`, `id`, `user_id`, `pnr_of_reservation`) VALUES
+(289, 'Economy', '2023-12-07', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-12 20:40:06', '01:00:00', 'E1', 100.00, 1029, 5, 390105353),
+(168, 'Economy', '2023-12-21', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-12 20:41:06', '01:00:00', 'E1', 100.00, 1030, 5, 594455953),
+(549, 'Economy', '2023-12-06', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-12 22:16:18', '01:00:00', 'E1', 100.00, 1036, 5, 969617646);
 
 -- --------------------------------------------------------
 
@@ -144,7 +160,7 @@ CREATE TABLE `trains` (
   `seat_number` varchar(10) NOT NULL,
   `departure_time` datetime NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `class_type` varchar(255) DEFAULT NULL
+  `class_type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -152,9 +168,10 @@ CREATE TABLE `trains` (
 --
 
 INSERT INTO `trains` (`train_id`, `train_number`, `seat_number`, `departure_time`, `price`, `class_type`) VALUES
-(3, 67890, '15C', '2023-11-10 12:30:00', 75.00, 'First Class'),
-(4, 98765, '5D', '2023-11-11 03:00:00', 65.00, 'Second Class'),
-(5, 13579, '8A', '2023-11-12 10:00:00', 50.00, 'Economy');
+(1, 12345, '12A', '2023-12-01 10:00:00', 50.00, 'First Class'),
+(2, 54321, '7B', '2023-12-02 14:30:00', 60.00, 'Second Class'),
+(3, 67890, '15C', '2023-12-03 12:30:00', 75.00, 'Economy'),
+(4, 56789, '3A', '2023-12-03 12:30:00', 70.00, 'Business Class');
 
 -- --------------------------------------------------------
 
@@ -183,7 +200,10 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `created_at`, `full_n
 (2, 'test1', 'test1', 'user', '2023-11-29 00:45:10', 'test1', 'test1', 'Male', '2015-11-01'),
 (3, 'testerr', 'testerr', 'user', '2023-11-29 19:55:30', 'testerr', 'testerr', 'Male', '2023-11-02'),
 (4, 'tast', 'tast', 'user', '2023-11-29 20:32:58', 'tast', 'tast', 'Male', '2023-11-01'),
-(5, 'a', 'a', 'user', '2023-11-29 23:13:28', 'a', 'a', 'Male', '2023-11-01');
+(5, 'a', 'a', 'user', '2023-11-29 23:13:28', 'a', 'a', 'Male', '2023-11-01'),
+(6, 'aa', 'aa', 'user', '2023-12-02 15:00:01', 'aa', 'aa', 'Male', '2023-12-01'),
+(7, '123', '123', 'user', '2023-12-06 21:39:10', '123', '123', 'Male', '2023-12-21'),
+(8, '1', '1', 'user', '2023-12-06 22:29:25', '1', '1', 'Male', '2023-12-14');
 
 --
 -- Indexes for dumped tables
@@ -230,8 +250,8 @@ ALTER TABLE `posts`
 -- Indexes for table `reservations`
 --
 ALTER TABLE `reservations`
-  ADD PRIMARY KEY (`reservation_id`),
-  ADD KEY `fk_closed_by_user` (`closed_by_user_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `trains`
@@ -250,22 +270,32 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `cities`
+-- AUTO_INCREMENT for table `reservations`
 --
-ALTER TABLE `cities`
-  MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `reservations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1037;
 
 --
 -- AUTO_INCREMENT for table `trains`
 --
 ALTER TABLE `trains`
-  MODIFY `train_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `train_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `reservations`
+--
+ALTER TABLE `reservations`
+  ADD CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
