@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PayView extends JFrame {
+public class ReceiptView extends JFrame {
 
 	private final String userId;
     private String selectedFrom;
@@ -16,7 +16,7 @@ public class PayView extends JFrame {
     private String selectedSeat;
     private int generatedPnr;
 
-    public PayView(String userId,String from, String to, String date, String time, String travelClass, String selectedSeat, int generatedPnr) {
+    public ReceiptView(String userId,String from, String to, String date, String time, String travelClass, String selectedSeat, int generatedPnr) {
         this.userId = userId;
     	this.selectedFrom = from;
         this.selectedTo = to;
@@ -30,7 +30,7 @@ public class PayView extends JFrame {
 
     private void initializeUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Payment");
+        setTitle("Receipt");
 
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
@@ -43,7 +43,7 @@ public class PayView extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
 
-        JLabel titleLabel = new JLabel("Payment");
+        JLabel titleLabel = new JLabel("Thank you for your payment/n Recipt");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setBounds(330, 30, 200, 40);

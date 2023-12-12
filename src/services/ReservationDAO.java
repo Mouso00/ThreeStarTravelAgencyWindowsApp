@@ -20,8 +20,43 @@ public class ReservationDAO {
     private static final String GET_CITIES_QUERY = "SELECT * FROM cities";
     private static final String GET_RESERVATION_BY_PNR = "SELECT * FROM reservations WHERE pnr_of_reservation = ?";
     private static final String INSERT_RESERVATION_QUERY = "INSERT INTO reservations (train_number, class_type, date_of_journey, source_location, destination_location, status, time_of_journey, seat, price,user_id,pnr_of_reservation) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+    private static final String GET_RESERVATIONS_BY_USER_ID = "SELECT * FROM reservations WHERE user_id = ?";
 
+    public static List<Reservation> getReservationsByUserId(String userId) {
+        List<Reservation> reservations = new ArrayList<>();
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_RESERVATIONS_BY_USER_ID)) {
 
+            preparedStatement.setString(1, userId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Reservation reservation = new Reservation();
+                    int trainNumber = resultSet.getInt("train_number");
+                    String dateOfJourney = resultSet.getString("date_of_journey");
+                    String sourceLocation = resultSet.getString("source_location");
+                    String destinationLocation = resultSet.getString("destination_location");
+                    int pnr = resultSet.getInt("pnr_of_reservation");
+                    String time = resultSet.getString("time_of_journey");
+
+                    reservation.setTrainNumber(trainNumber);
+                    reservation.setDate(dateOfJourney);
+                    reservation.setFrom(sourceLocation);
+                    reservation.setTo(destinationLocation);
+                    reservation.setGenaretedPnr(pnr);
+                    reservation.setTime(time);
+
+                    reservations.add(reservation);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your needs
+        }
+
+        return reservations;
+    }
+   
     public static String[] getCityOptions() {
         try (Connection connection = DatabaseConnection.getConnection();
              Statement statement = connection.createStatement();
@@ -81,6 +116,30 @@ public class ReservationDAO {
         return reservation;
     }
 
+    public static String getReservationInfoByPnr(String pnr) {
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_RESERVATION_BY_PNR)) {
+
+            preparedStatement.setString(1, pnr);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Modify this part to extract and format the relevant information from the result set
+                    int trainNumber = resultSet.getInt("train_number");
+                    String seat = resultSet.getString("seat");
+                    // ... other fields
+
+                    return "PNR: " + pnr + "\nTrain Number: " + trainNumber + "\nSeat: " + seat;
+                } else {
+                    return null; // No reservation found for the given PNR
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your needs
+            return null; // Return null in case of an error
+        }
+    }
 
     public static void insertReservation(Reservation reservation) {
         try (Connection connection = DatabaseConnection.getConnection();
@@ -115,6 +174,22 @@ public class ReservationDAO {
         }
     }
 
+    public static boolean deleteReservationByPnr(String pnr) {
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM reservations WHERE pnr_of_reservation = ?")) {
+
+            preparedStatement.setString(1, pnr);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your needs
+            return false; // Return false in case of an error
+        }
+    }
+    
     private static final String INSERT_USER_QUERY = "INSERT INTO users (username, password, role, full_name, email_address, gender, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     public static int insertUser(User user) {

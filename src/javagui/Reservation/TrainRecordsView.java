@@ -2,6 +2,7 @@ package javagui.Reservation;
 
 import javax.swing.*;
 
+import javagui.Dashboard.MakeReservationView;
 import models.TrainRecord;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 
-public class SearchResultsView extends JFrame {
+public class TrainRecordsView extends JFrame {
 
 	private final String userId;
     private List<TrainRecord> trainRecords;
@@ -22,8 +23,7 @@ public class SearchResultsView extends JFrame {
    
     private JComboBox<String> seatComboBox;
 
-    public SearchResultsView(String userId,String from, String to, String date, String time, String travelClass) {
-    	JOptionPane.showMessageDialog(null, userId);
+    public TrainRecordsView(String userId,String from, String to, String date, String time, String travelClass) {
         this.userId = userId;
     	this.selectedFrom = from;
         this.selectedTo = to;
@@ -115,7 +115,7 @@ public class SearchResultsView extends JFrame {
                     dispose();
                 } else {
                     // Handle the case where no seat is selected (show a message, etc.)
-                    JOptionPane.showMessageDialog(SearchResultsView.this, "Please select a seat.", "Seat Selection", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(TrainRecordsView.this, "Please select a seat.", "Seat Selection", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -141,7 +141,7 @@ public class SearchResultsView extends JFrame {
     }
 
     private void openSearchTrainView() {
-        SearchTrainView searchTrainView = new SearchTrainView(userId);
+        MakeReservationView searchTrainView = new MakeReservationView(userId);
         searchTrainView.setVisible(true);
     }
 

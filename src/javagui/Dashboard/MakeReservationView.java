@@ -1,6 +1,8 @@
-package javagui.Reservation;
+package javagui.Dashboard;
 
 import com.toedter.calendar.JDateChooser;
+
+import javagui.Reservation.TrainRecordsView;
 import services.ReservationDAO;
 
 import javax.swing.*;
@@ -8,7 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchTrainView extends JFrame {
+public class MakeReservationView extends JFrame {
 
 	private final String userId;
     private JComboBox<String> fromComboBox;
@@ -19,11 +21,10 @@ public class SearchTrainView extends JFrame {
 
 
 
-    public SearchTrainView(String userId) {
+    public MakeReservationView(String userId) {
     	this.userId = userId;
-    	JOptionPane.showMessageDialog(null, userId);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Search Train");
+        setTitle("Make a Reservation");
         setPreferredSize(new Dimension(800, 600));
         setResizable(false);
 
@@ -45,7 +46,7 @@ public class SearchTrainView extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
 
-        JLabel titleLabel = new JLabel("Search for Trains");
+        JLabel titleLabel = new JLabel("Make a Reservation");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setBounds(300, 30, 200, 40);
@@ -98,7 +99,7 @@ public class SearchTrainView extends JFrame {
         String selectedTime = (String) timeComboBox.getSelectedItem();
         String selectedClass = (String) classComboBox.getSelectedItem();
 
-        SearchResultsView searchResultsView = new SearchResultsView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
+        TrainRecordsView searchResultsView = new TrainRecordsView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
         searchResultsView.setVisible(true);
         dispose();
     }

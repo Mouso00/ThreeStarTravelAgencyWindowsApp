@@ -3,6 +3,7 @@ package javagui.Authentication;
 import javax.swing.*;
 
 import dbConnection.DatabaseConnection;
+import javagui.Dashboard.Menu;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

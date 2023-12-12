@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2023 at 11:31 PM
+-- Generation Time: Dec 12, 2023 at 11:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -131,25 +131,22 @@ CREATE TABLE `reservations` (
   `destination_location` varchar(255) NOT NULL,
   `status` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `closed_by_user_id` int(11) DEFAULT NULL,
   `time_of_journey` time DEFAULT NULL,
   `seat` varchar(10) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT 0.00,
   `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL
+  `user_id` int(11) DEFAULT NULL,
+  `pnr_of_reservation` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reservations`
 --
 
-INSERT INTO `reservations` (`train_number`, `class_type`, `date_of_journey`, `source_location`, `destination_location`, `status`, `created_at`, `closed_by_user_id`, `time_of_journey`, `seat`, `price`, `id`, `user_id`) VALUES
-(418, 'Economy', '2023-12-01', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-04 14:06:35', NULL, '01:00:00', 'E1', 100.00, 983, NULL),
-(136, 'Economy', '2023-12-12', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-04 15:36:41', NULL, '01:00:00', 'E1', 100.00, 984, NULL),
-(119, 'Economy', '2023-12-12', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-04 15:41:15', NULL, '01:00:00', 'E4', 100.00, 985, NULL),
-(428, 'Economy', '2023-12-08', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-06 22:15:26', NULL, '01:00:00', 'E1', 100.00, 986, NULL),
-(488, 'Economy', '2023-12-15', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-06 22:28:57', NULL, '01:00:00', 'E1', 100.00, 987, 5),
-(564, 'Economy', '2023-12-29', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-06 22:29:38', NULL, '01:00:00', 'E1', 100.00, 988, 8);
+INSERT INTO `reservations` (`train_number`, `class_type`, `date_of_journey`, `source_location`, `destination_location`, `status`, `created_at`, `time_of_journey`, `seat`, `price`, `id`, `user_id`, `pnr_of_reservation`) VALUES
+(289, 'Economy', '2023-12-07', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-12 20:40:06', '01:00:00', 'E1', 100.00, 1029, 5, 390105353),
+(168, 'Economy', '2023-12-21', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-12 20:41:06', '01:00:00', 'E1', 100.00, 1030, 5, 594455953),
+(549, 'Economy', '2023-12-06', 'Αθήνα', 'Αθήνα', 'Pending', '2023-12-12 22:16:18', '01:00:00', 'E1', 100.00, 1036, 5, 969617646);
 
 -- --------------------------------------------------------
 
@@ -276,7 +273,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=989;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1037;
 
 --
 -- AUTO_INCREMENT for table `trains`

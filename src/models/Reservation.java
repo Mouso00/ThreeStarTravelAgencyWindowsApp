@@ -127,4 +127,9 @@ public class Reservation {
 		this.generatedPnr = generatedPnr;
 		
 	}
+
+	public Object getCreatedAt() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

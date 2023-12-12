@@ -1,10 +1,8 @@
-package javagui.Authentication;
+package javagui.Dashboard;
 
 import javax.swing.*;
 
-import javagui.PnrEnquiryView;
-import javagui.Reservation.CancellationView;
-import javagui.Reservation.SearchTrainView;
+import javagui.UserReservations.SeeYourReservationView;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -15,7 +13,6 @@ public class Menu extends JFrame {
 
     public Menu(String userId) {
     	this.userId = userId;
-        JOptionPane.showMessageDialog(null, userId);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Online Train Reservation");
         setPreferredSize(new Dimension(800, 600));
@@ -49,7 +46,7 @@ public class Menu extends JFrame {
 
         createImageAndButton(buttonPanel, "img/reservation.png", "Make a Reservation", 150, 150, e -> openSearchTrainView(userId));
         createImageAndButton(buttonPanel, "img/cancellation.png", "Cancel a Reservation", 150, 150, e -> openCancellationView());
-        createImageAndButton(buttonPanel, "img/pnrenquiry.png", "PNR Enquiry", 150, 150, e -> openPnrEnquiryView());
+        createImageAndButton(buttonPanel, "img/pnrenquiry.png", "See your reservations", 150, 150, e -> openPnrEnquiryView());
 
         // Add the sub-panel for buttons to the middle panel
         GridBagConstraints buttonConstraints = new GridBagConstraints();
@@ -107,19 +104,19 @@ public class Menu extends JFrame {
     }
 
     private void openSearchTrainView(String userId) {
-        SearchTrainView searchTrainView = new SearchTrainView(userId);
+        MakeReservationView searchTrainView = new MakeReservationView(userId);
         searchTrainView.setVisible(true);
         dispose();
     }
 
     private void openCancellationView() {
-        CancellationView cancellationView = new CancellationView(userId);
+        CancellationReservationView cancellationView = new CancellationReservationView(userId);
         cancellationView.setVisible(true);
         dispose();
     }
 
     private void openPnrEnquiryView() {
-        PnrEnquiryView pnrEnquiryView = new PnrEnquiryView(userId);
+        SeeYourReservationView pnrEnquiryView = new SeeYourReservationView(userId);
         pnrEnquiryView.setVisible(true);
         dispose();
     }

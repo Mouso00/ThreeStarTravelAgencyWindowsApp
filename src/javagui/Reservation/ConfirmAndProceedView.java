@@ -241,13 +241,13 @@ public class ConfirmAndProceedView extends JFrame {
 
 
     private void openSearchResultsView() {
-        SearchResultsView searchResultsView = new SearchResultsView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
+        TrainRecordsView searchResultsView = new TrainRecordsView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
         searchResultsView.setVisible(true);
         dispose();
     }
 
     private void openPayView() {
-    	PayView payView = new PayView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat,generatePnr());
+    	ReceiptView payView = new ReceiptView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat,generatePnr());
 
         payView.setVisible(true);
     }
