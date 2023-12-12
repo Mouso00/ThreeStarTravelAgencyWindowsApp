@@ -1,7 +1,9 @@
-package javagui;
+package javagui.Authentication;
 
 import javax.swing.*;
 
+import javagui.PnrEnquiryView;
+import javagui.Reservation.CancellationView;
 import javagui.Reservation.SearchTrainView;
 
 import java.awt.*;

@@ -9,7 +9,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 import dbConnection.DatabaseConnection;
-import javagui.Menu;
+import javagui.Authentication.Menu;
 import models.User;
 
 public class UserDAO {

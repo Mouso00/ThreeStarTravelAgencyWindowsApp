@@ -1,4 +1,4 @@
-package javagui;
+package javagui.Reservation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,13 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CancellationView extends JFrame {
-    public CancellationView(String userId) {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Cancellation Form");
-
-        setSize(800, 600);
+	
+	public CancellationView (String userId) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Cancel");
+        setPreferredSize(new Dimension(800, 600));
         setResizable(false);
-
+        initializeUI();
+        pack();
+        setLocationRelativeTo(null);
+	}
+	
+	private void initializeUI() {
+	
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
         contentPane.setBackground(new Color(248, 248, 248));
@@ -40,7 +46,7 @@ public class CancellationView extends JFrame {
         pnrField.setBounds(400, 200, 150, 30);
         panel.add(pnrField);
 
-        JButton submitButton = new JButton("Submit");
+        JButton submitButton = new JButton("Search");
         submitButton.setForeground(Color.WHITE);
         submitButton.setBackground(new Color(54, 100, 139));
         submitButton.addActionListener(new ActionListener() {
@@ -52,8 +58,7 @@ public class CancellationView extends JFrame {
                         "Confirm Cancellation", JOptionPane.YES_NO_OPTION);
 
                 if (confirmation == JOptionPane.YES_OPTION) {
-                    // User confirmed the cancellation
-                    // You can implement the cancellation logic here
+                  
                     String pnrInfo = fetchPnrInformation(pnr);
 
                     // Display the information in a dialog box
@@ -68,14 +73,14 @@ public class CancellationView extends JFrame {
         JButton backButton = new JButton("Back");
         backButton.setForeground(Color.WHITE);
         backButton.setBackground(new Color(54, 100, 139));
-//        backButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                // Navigate back to the Menu
-//                Menu menuView = new Menu();
-//                menuView.setVisible(true);
-//                dispose(); // Close the current CancellationView frame
-//            }
-//        });
+//	        backButton.addActionListener(new ActionListener() {
+//	            public void actionPerformed(ActionEvent e) {
+//	                // Navigate back to the Menu
+//	                Menu menuView = new Menu();
+//	                menuView.setVisible(true);
+//	                dispose(); // Close the current CancellationView frame
+//	            }
+//	        });
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
         backButton.setBounds(50, 500, 100, 40);
         panel.add(backButton);
@@ -88,5 +93,6 @@ public class CancellationView extends JFrame {
         return "PNR: " + pnr + "\nTrain Number: 12345\nSeat Number: 12A\nTime: 2023-11-10 10:00 AM\nPrice: $50";
     }
 
+  
 
 }

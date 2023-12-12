@@ -1,4 +1,4 @@
-package javagui;
+package javagui.Authentication;
 
 import com.toedter.calendar.JDateChooser;
 
