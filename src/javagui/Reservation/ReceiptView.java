@@ -1,6 +1,9 @@
 package javagui.Reservation;
 
 import javax.swing.*;
+
+import javagui.Dashboard.MakeReservationView;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -116,7 +119,7 @@ public class ReceiptView extends JFrame {
         bookAgainButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Implement the action when the "Book Again" button is clicked
-                openConfirmAndProceedView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
+            	openMakeReservationView(userId);
                 dispose();
             }
         });
@@ -128,9 +131,9 @@ public class ReceiptView extends JFrame {
         setBounds(100, 100, 800, 600);
     }
 
-    private void openConfirmAndProceedView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
-        ConfirmAndProceedView confirmAndProceedView = new ConfirmAndProceedView(userId,from, to, date, time, travelClass, selectedSeat);
-        confirmAndProceedView.setVisible(true);
+    private void openMakeReservationView(String userId) {
+    	MakeReservationView makeReservationView = new MakeReservationView(userId);
+    	makeReservationView.setVisible(true);
     }
 
 
