@@ -13,9 +13,7 @@ public class WelcomeView extends JFrame {
         setTitle("Welcome");
         setPreferredSize(new Dimension(800, 600));
         setResizable(false);
-
         initializeUI();
-
         pack();
         setLocationRelativeTo(null);
     }
@@ -23,12 +21,12 @@ public class WelcomeView extends JFrame {
     private void initializeUI() {
         JPanel contentPane = new JPanel(new BorderLayout());
         setContentPane(contentPane);
-
+        
         // Create a panel to hold the image on the left
         JPanel imagePanel = new JPanel();
         imagePanel.setOpaque(false);
         contentPane.add(imagePanel, BorderLayout.WEST);
-
+        
         // Load and scale the image
         ImageIcon originalImageIcon = new ImageIcon("img/welcomeImage.png");
         int newWidth = 340;
@@ -53,7 +51,7 @@ public class WelcomeView extends JFrame {
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(titleLabel);
 
-        // Add more vertical glue to separate the title and buttons
+        //separate the title and buttons
         panel.add(Box.createRigidArea(new Dimension(0, 80)));
 
         JPanel buttonPanel = new JPanel();
@@ -71,7 +69,7 @@ public class WelcomeView extends JFrame {
         createAccountButton.addActionListener(e -> openRegisterView());
         buttonPanel.add(createAccountButton);
 
-        // Add more vertical glue to center the buttons
+        // center the buttons
         panel.add(Box.createVerticalGlue());
     }
 

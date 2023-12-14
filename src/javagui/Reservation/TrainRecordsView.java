@@ -3,18 +3,17 @@ package javagui.Reservation;
 import javax.swing.*;
 
 import javagui.Dashboard.MakeReservationView;
-import models.TrainRecord;
+
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 
 public class TrainRecordsView extends JFrame {
 
 	private final String userId;
-    private List<TrainRecord> trainRecords;
+
     private String selectedFrom;
     private String selectedTo;
     private String selectedDate;
@@ -35,8 +34,13 @@ public class TrainRecordsView extends JFrame {
     }
 
     public void initializeUI() {
+    	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Train Records");
+        setPreferredSize(new Dimension(800, 600));
+        setResizable(false);
+        pack();
+        setLocationRelativeTo(null);
 
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
@@ -108,19 +112,18 @@ public class TrainRecordsView extends JFrame {
 
                 // Check if a seat is selected
                 if (selectedSeat != null && !selectedSeat.isEmpty()) {
-                    // Perform any additional logic with the selected seat if needed
-                    // For example, you can pass it to the ConfirmAndProceedView
+               
 
                     openConfirmAndProceedView(selectedSeat);
                     dispose();
                 } else {
-                    // Handle the case where no seat is selected (show a message, etc.)
+                
                     JOptionPane.showMessageDialog(TrainRecordsView.this, "Please select a seat.", "Seat Selection", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
         confirmSeatButton.setFont(new Font("Arial", Font.BOLD, 16));
-        confirmSeatButton.setBounds(350, yOffset, 150, 40);
+        confirmSeatButton.setBounds(330, 350, 150, 40);
         panel.add(confirmSeatButton);
 
         JButton backButton = new JButton("Back");
@@ -133,11 +136,11 @@ public class TrainRecordsView extends JFrame {
             }
         });
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
-        backButton.setBounds(50, yOffset + 50, 100, 40);
+        backButton.setBounds(50, 500, 150, 40);
         panel.add(backButton);
 
-        setMinimumSize(new Dimension(800, 600));
-        setBounds(100, 100, 800, 600);
+        
+      
     }
 
     private void openSearchTrainView() {

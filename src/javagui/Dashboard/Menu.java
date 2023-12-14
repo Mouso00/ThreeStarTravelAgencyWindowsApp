@@ -17,14 +17,12 @@ public class Menu extends JFrame {
         setTitle("Online Train Reservation");
         setPreferredSize(new Dimension(800, 600));
         setResizable(false);
-
         initializeUI();
-
         pack();
         setLocationRelativeTo(null);
     }
     private void initializeUI() {
-        // Create the main content pane
+    	
         JPanel contentPane = new JPanel(new BorderLayout());
         setContentPane(contentPane);
 

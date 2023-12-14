@@ -36,13 +36,13 @@ public class ConfirmAndProceedView extends JFrame {
 
         initializeUI();
     }
-
-
-
-
     public void initializeUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Confirm and Proceed");
+        setPreferredSize(new Dimension(800, 600));
+        setResizable(false);
+        pack();
+        setLocationRelativeTo(null);
 
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
@@ -136,11 +136,9 @@ public class ConfirmAndProceedView extends JFrame {
             }
         });
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
-        backButton.setBounds(50, yOffset, 100, 40);
+        backButton.setBounds(50, 500, 150, 40);
         panel.add(backButton);
-
-        setMinimumSize(new Dimension(800, 600));
-        setBounds(100, 100, 800, 600);
+   
     }
     private double calculatePrice() {
         // Basic pricing logic based on the selected class
@@ -153,14 +151,11 @@ public class ConfirmAndProceedView extends JFrame {
                 basePrice = 150.0;
                 break;
             case "Salon":
-                basePrice = 200.0;
+                basePrice = 70.0;
                 break;
             default:
                 basePrice = 0.0;
         }
-
-        // You can add more logic based on other factors if needed
-
         return basePrice;
     }
     private void showConfirmationMessage() {
@@ -186,8 +181,8 @@ public class ConfirmAndProceedView extends JFrame {
             reservation.setDate(selectedDate);
             reservation.setTime(selectedTime);
             reservation.setTravelClass(selectedClass);
-            reservation.setPrice(calculatePrice()); // You may need to modify this based on your pricing logic
-            reservation.setStatus("Pending"); // Set an appropriate status
+            reservation.setPrice(calculatePrice()); 
+            reservation.setStatus("Pending"); 
            
 			reservation.setGenaretedPnr(generatePnr());
 
@@ -230,22 +225,15 @@ public class ConfirmAndProceedView extends JFrame {
             default:
                 seatClassPrefix = "U"; // U for unknown or default class
         }
-
-     
-
-
         // Concatenate the seat class prefix and seat number
         return seatClassPrefix ;
     }
-
-
 
     private void openSearchResultsView() {
         TrainRecordsView searchResultsView = new TrainRecordsView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
         searchResultsView.setVisible(true);
         dispose();
     }
-
     private void openPayView() {
     	ReceiptView payView = new ReceiptView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat,generatePnr());
 

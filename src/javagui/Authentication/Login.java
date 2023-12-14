@@ -28,9 +28,7 @@ public class Login extends JFrame {
         setTitle("Login");
         setPreferredSize(new Dimension(800, 600));
         setResizable(false);
-
         initializeUI();
-
         pack();
         setLocationRelativeTo(null);
     }
@@ -38,13 +36,11 @@ public class Login extends JFrame {
     private void initializeUI() {
         JPanel contentPane = new JPanel(null);
         setContentPane(contentPane);
-
         // Left panel for decorative image
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(new Color(255, 255, 255));
         leftPanel.setBounds(0, 0, 250, 600);
         contentPane.add(leftPanel);
-
         try {
             // Load the background image and resize it
             BufferedImage originalImage = ImageIO.read(new File("img/loginbackground.jpg"));
@@ -59,7 +55,6 @@ public class Login extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         JPanel panel = new JPanel(null);
         panel.setBackground(new Color(54, 100, 139));
         panel.setBounds(250, 0, 550, 600);

@@ -53,28 +53,25 @@ public class SeeYourReservationView extends JFrame {
             enquiryInfoArea.setBackground(new Color(54, 100, 139));
             scrollPane.setViewportView(enquiryInfoArea);
 
-            JButton btnBackToMainMenu = createStyledButton("Back to Main Menu");
-            btnBackToMainMenu.addActionListener(new ActionListener() {
+            JButton backButton = new JButton("Back to Menu");
+            backButton.setForeground(Color.WHITE);
+            backButton.setBackground(new Color(54, 100, 139));
+            backButton.setFont(new Font("Arial", Font.BOLD, 16));
+            backButton.setBounds(50, 500, 150, 40);
+            contentPane.add(backButton);
+            backButton.addActionListener((ActionListener) new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    dispose(); // Close the current window
-                    Menu menu = new Menu(userId);
-                    menu.setVisible(true); // Show the main menu
+               
+                    Menu menuView = new Menu(userId);
+                    menuView.setVisible(true);
+                    dispose(); //
                 }
-            });        btnBackToMainMenu.setAlignmentX(Component.CENTER_ALIGNMENT);
-            contentPane.add(btnBackToMainMenu);
+            });
+          
 
             // Retrieve user reservations and display them
             List<Reservation> userReservations = ReservationDAO.getReservationsByUserId(userId);
             displayUserReservations(userReservations);
-        }
-
-        private JButton createStyledButton(String text) {
-            JButton button = new JButton(text);
-            button.setFont(new Font("Arial", Font.BOLD, 16));
-            button.setBackground(new Color(54, 100, 139));
-            button.setForeground(Color.WHITE);
-            button.setFocusPainted(false);
-            return button;
         }
 
         private void displayUserReservations(List<Reservation> userReservations) {
