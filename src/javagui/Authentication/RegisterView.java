@@ -3,6 +3,7 @@ package javagui.Authentication;
 import com.toedter.calendar.JDateChooser;
 
 import dbConnection.DatabaseConnection;
+import javagui.Dashboard.Menu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RegisterView extends JFrame {
@@ -23,6 +25,10 @@ public class RegisterView extends JFrame {
     private JButton backButton;
 
     public RegisterView() {
+    	
+    	  initializeUI();
+    }
+    private void initializeUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Register");
         setPreferredSize(new Dimension(800, 600));
@@ -121,15 +127,22 @@ public class RegisterView extends JFrame {
         registerButton = new JButton("Register");
         customizeButton(registerButton);
         registerButton.addActionListener(e -> openWelcomeView());
-        registerButton.setBounds(x + labelWidth, y, textFieldWidth, 40);
+        registerButton.setBounds(270, 400, 150, 40);
         panel.add(registerButton);
 
         backButton = new JButton("Back");
         customizeButton(backButton);
-        backButton.addActionListener(e -> openWelcomeView());
-        backButton.setBounds(x, y, labelWidth, 40);
+        backButton.addActionListener((ActionListener) new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Navigate back to the Menu
+                Login login = new Login();
+                login.setVisible(true);
+                dispose(); // Close the current MakeReservationView frame
+            }
+        });
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.setBounds(50, 500, 150, 40);
         panel.add(backButton);
-
         pack();
         setLocationRelativeTo(null);
     }
@@ -148,11 +161,41 @@ public class RegisterView extends JFrame {
         String password = new String(passwordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());
         String selectedGender = (String) genderComboBox.getSelectedItem();
-        java.sql.Date dateOfBirth = new java.sql.Date(dateChooser.getDate().getTime());
+        java.util.Date dobUtil = dateChooser.getDate();
 
-        // Perform validation (check if passwords match, etc.)
+        // Perform validation
+        if (fullName.isEmpty() || emailAddress.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || dobUtil == null) {
+            JOptionPane.showMessageDialog(null, "Please fill in all fields, including Date of Birth.");
+            return;
+        }
+
+        if (!isValidFullName(fullName)) {
+            JOptionPane.showMessageDialog(null, "Full Name should only contain letters and spaces, and should have at least 3 characters.");
+            return;
+        }
+
+        if (!emailAddress.contains("@")) {
+            JOptionPane.showMessageDialog(null, "Invalid email address. Please include '@'.");
+            return;
+        }
+        if (!isValidEmailAddress(emailAddress)) {
+            JOptionPane.showMessageDialog(null, "Invalid email address. Please enter a valid email address.");
+            return;
+        }
+
+        if (password.length() < 4) {
+            JOptionPane.showMessageDialog(null, "Password must be at least 4 characters long.");
+            return;
+        }
+
         if (!password.equals(confirmPassword)) {
             JOptionPane.showMessageDialog(null, "Passwords do not match. Please try again.");
+            return;
+        }
+
+        // Check if the user already exists
+        if (userExists(emailAddress)) {
+            JOptionPane.showMessageDialog(null, "User with the provided email address already exists.");
             return;
         }
 
@@ -167,7 +210,7 @@ public class RegisterView extends JFrame {
                 preparedStatement.setString(4, fullName);
                 preparedStatement.setString(5, emailAddress);
                 preparedStatement.setString(6, selectedGender);
-                preparedStatement.setDate(7, dateOfBirth);
+                preparedStatement.setDate(7, new java.sql.Date(dobUtil.getTime()));
 
                 int rowsAffected = preparedStatement.executeUpdate();
 
@@ -185,6 +228,43 @@ public class RegisterView extends JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error: Registration failed.");
         }
+    }
+    
+    
+    //Validations
+    private boolean isValidEmailAddress(String email) {
+        int count = 0;
+        for (char c : email.toCharArray()) {
+            if (c == '@') {
+                count++;
+                if (count > 1) {
+                    return false; // More than one "@" found
+                }
+            }
+        }
+        return count == 1; // Exactly one "@" found
+    }
+   
+    private boolean isValidFullName(String fullName) {
+        return fullName.matches("^[a-zA-Z\\s]{3,}$");
+    }
+   
+    private boolean userExists(String email) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String query = "SELECT COUNT(*) FROM users WHERE email_address = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, email);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int count = resultSet.getInt(1);
+                        return count > 0;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

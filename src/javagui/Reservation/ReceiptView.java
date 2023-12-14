@@ -1,6 +1,10 @@
 package javagui.Reservation;
 
 import javax.swing.*;
+
+import javagui.Dashboard.MakeReservationView;
+import javagui.Dashboard.Menu;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +35,10 @@ public class ReceiptView extends JFrame {
     private void initializeUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Receipt");
+        setPreferredSize(new Dimension(800, 600));
+        setResizable(false);
+        pack();
+        setLocationRelativeTo(null);
 
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
@@ -43,10 +51,10 @@ public class ReceiptView extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
 
-        JLabel titleLabel = new JLabel("Thank you for your payment/n Recipt");
+        JLabel titleLabel = new JLabel("Thank you for your payment");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBounds(330, 30, 200, 40);
+        titleLabel.setBounds(200, 30, 400, 40);
         panel.add(titleLabel);
 
         // Add JLabels to display receipt information
@@ -80,7 +88,7 @@ public class ReceiptView extends JFrame {
         classLabel.setBounds(50, 220, 400, 30);
         panel.add(classLabel);
 
-        JLabel seatLabel = new JLabel("Seat: " + selectedSeat);
+        JLabel seatLabel = new JLabel("Seat: " + selectedClass + " " +  selectedSeat);
         seatLabel.setForeground(Color.WHITE);
         seatLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         seatLabel.setBounds(50, 250, 400, 30);
@@ -93,44 +101,44 @@ public class ReceiptView extends JFrame {
         pnrLabel.setBounds(50, 280, 400, 30);
         panel.add(pnrLabel);
 
-        // Add other components and UI setup for PayView here...
-
+       
         int yOffset = 350;
 
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("Back to Menu");
         backButton.setForeground(Color.WHITE);
         backButton.setBackground(new Color(54, 100, 139));
         backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Implement the action when the back button is clicked
-                dispose();
+        	public void actionPerformed(ActionEvent e) {
+                Menu menuView = new Menu(userId);
+                menuView.setVisible(true);
+                dispose(); // 
             }
         });
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
-        backButton.setBounds(150, yOffset, 100, 40);
+        backButton.setBounds(50, 500, 150, 40);
         panel.add(backButton);
 
         JButton bookAgainButton = new JButton("Book Again");
         bookAgainButton.setForeground(Color.WHITE);
         bookAgainButton.setBackground(new Color(54, 100, 139));
+        bookAgainButton.setBounds(50, 400, 400, 40);
         bookAgainButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Implement the action when the "Book Again" button is clicked
-                openConfirmAndProceedView(selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass, selectedSeat);
+     
+            	openMakeReservationView(userId);
                 dispose();
             }
         });
         bookAgainButton.setFont(new Font("Arial", Font.BOLD, 16));
-        bookAgainButton.setBounds(300, yOffset, 150, 40);
+      
         panel.add(bookAgainButton);
 
-        setMinimumSize(new Dimension(800, 600));
-        setBounds(100, 100, 800, 600);
+      
     }
 
-    private void openConfirmAndProceedView(String from, String to, String date, String time, String travelClass, String selectedSeat) {
-        ConfirmAndProceedView confirmAndProceedView = new ConfirmAndProceedView(userId,from, to, date, time, travelClass, selectedSeat);
-        confirmAndProceedView.setVisible(true);
+    private void openMakeReservationView(String userId) {
+    	MakeReservationView makeReservationView = new MakeReservationView(userId);
+    	makeReservationView.setVisible(true);
     }
 
 

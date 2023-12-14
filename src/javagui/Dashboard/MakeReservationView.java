@@ -7,6 +7,8 @@ import services.ReservationDAO;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,22 +21,20 @@ public class MakeReservationView extends JFrame {
     private JComboBox<String> timeComboBox;
     private JComboBox<String> classComboBox;
 
-
-
     public MakeReservationView(String userId) {
     	this.userId = userId;
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Make a Reservation");
-        setPreferredSize(new Dimension(800, 600));
-        setResizable(false);
-
-        initializeUI();
-
-        pack();
-        setLocationRelativeTo(null);
+        initializeUI(); 
 	}
 
 	private void initializeUI() {
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Make a Reservation");
+        setPreferredSize(new Dimension(800, 600));
+        setResizable(false);
+        pack();
+        setLocationRelativeTo(null);
+        
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
         contentPane.setBackground(new Color(248, 248, 248));
@@ -74,7 +74,7 @@ public class MakeReservationView extends JFrame {
 
         createLabelAndComboBox(panel, "Date of Journey:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, getDateOptions());
         labelY += labelComboBoxGap;
-        comboBoxX += 20;
+        comboBoxX += 0;
         comboBoxY += labelComboBoxGap;
 
         timeComboBox = createLabelAndComboBox(panel, "Time:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, getTimeOptions());
@@ -90,19 +90,42 @@ public class MakeReservationView extends JFrame {
         reservationButton.setBounds(300, 400, 150, 40);
         reservationButton.addActionListener(e -> openSearchResultsView(userId));
         panel.add(reservationButton);
+        
+        JButton backButton = new JButton("Back to Menu");
+        backButton.setForeground(Color.WHITE);
+        backButton.setBackground(new Color(54, 100, 139));
+        backButton.addActionListener((ActionListener) new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Navigate back to the Menu
+                Menu menuView = new Menu(userId);
+                menuView.setVisible(true);
+                dispose(); // Close the current MakeReservationView frame
+            }
+        });
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.setBounds(50, 500, 150, 40);
+        panel.add(backButton);
     }
+    
+	private void openSearchResultsView(String userId) {
+	    String selectedFrom = (String) fromComboBox.getSelectedItem();
+	    String selectedTo = (String) toComboBox.getSelectedItem();
+	    java.util.Date selectedDate = dateChooser.getDate();
+	    String selectedTime = (String) timeComboBox.getSelectedItem();
+	    String selectedClass = (String) classComboBox.getSelectedItem();
 
-    private void openSearchResultsView(String userId) {
-        String selectedFrom = (String) fromComboBox.getSelectedItem();
-        String selectedTo = (String) toComboBox.getSelectedItem();
-        String selectedDate = formatDate(dateChooser.getDate());
-        String selectedTime = (String) timeComboBox.getSelectedItem();
-        String selectedClass = (String) classComboBox.getSelectedItem();
+	    if (selectedDate == null) {
+	        // No date selected
+	        JOptionPane.showMessageDialog(this, "Please select a date.", "Date Selection Error", JOptionPane.ERROR_MESSAGE);
+	        return; 
+	    }
 
-        TrainRecordsView searchResultsView = new TrainRecordsView(userId,selectedFrom, selectedTo, selectedDate, selectedTime, selectedClass);
-        searchResultsView.setVisible(true);
-        dispose();
-    }
+	    String formattedDate = formatDate(selectedDate);
+
+	    TrainRecordsView searchResultsView = new TrainRecordsView(userId, selectedFrom, selectedTo, formattedDate, selectedTime, selectedClass);
+	    searchResultsView.setVisible(true);
+	    dispose();
+	}
 
     private JComboBox<String> createLabelAndComboBox(JPanel panel, String labelText, int labelX, int labelY, int comboBoxX, int comboBoxY, int comboBoxWidth, int comboBoxHeight, String[] options) {
         JLabel label = new JLabel(labelText);
@@ -119,12 +142,12 @@ public class MakeReservationView extends JFrame {
     }
 
     private String[] getCityOptions() {
-        // Replace this with your own data or logic to get city options
+        
         return ReservationDAO.getCityOptions();
     }
 
     private String[] getDateOptions() {
-        // Replace this with your own data or logic to get date options
+   
         return new String[]{""};
     }
 
@@ -145,10 +168,6 @@ public class MakeReservationView extends JFrame {
     }
 
     private String formatDate(java.util.Date date) {
-        // You need to implement a proper date formatting logic based on your requirements
-        // For simplicity, I'll use a basic formatting method
-        // You may use SimpleDateFormat or other date formatting libraries for more sophisticated formatting
-        // This is just an example
         return date.toString();
     }
 }

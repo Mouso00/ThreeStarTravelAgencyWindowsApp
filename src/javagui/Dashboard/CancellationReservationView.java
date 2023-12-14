@@ -15,16 +15,17 @@ public class CancellationReservationView extends JFrame {
 
     public CancellationReservationView(String userId) {
         this.userId = userId;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Cancel Reservation");
-        setPreferredSize(new Dimension(800, 600));
-        setResizable(false);
         initializeUI();
-        pack();
-        setLocationRelativeTo(null);
     }
 
     private void initializeUI() {
+   	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Cancel Reservation");
+        setPreferredSize(new Dimension(800, 600));
+        setResizable(false);
+        pack();
+        setLocationRelativeTo(null);
+    	
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
         contentPane.setBackground(new Color(248, 248, 248));
@@ -74,6 +75,7 @@ public class CancellationReservationView extends JFrame {
                     if (deletionSuccess) {
                         // Display success message
                         JOptionPane.showMessageDialog(null, "Reservation canceled successfully!", "Cancellation Successful", JOptionPane.INFORMATION_MESSAGE);
+                        pnrField.setText("");
                     } else {
                         // Display error message
                         JOptionPane.showMessageDialog(null, "Failed to cancel reservation.", "Cancellation Failed", JOptionPane.ERROR_MESSAGE);
@@ -123,7 +125,5 @@ public class CancellationReservationView extends JFrame {
             return "No reservation found for PNR: " + pnr;
         }
     }
-
-   
 
 }

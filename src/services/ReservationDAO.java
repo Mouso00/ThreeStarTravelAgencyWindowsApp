@@ -14,13 +14,14 @@ import java.util.Locale;
 
 import dbConnection.DatabaseConnection;
 import models.Reservation;
-import models.User;
+
 
 public class ReservationDAO {
     private static final String GET_CITIES_QUERY = "SELECT * FROM cities";
     private static final String GET_RESERVATION_BY_PNR = "SELECT * FROM reservations WHERE pnr_of_reservation = ?";
     private static final String INSERT_RESERVATION_QUERY = "INSERT INTO reservations (train_number, class_type, date_of_journey, source_location, destination_location, status, time_of_journey, seat, price,user_id,pnr_of_reservation) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
     private static final String GET_RESERVATIONS_BY_USER_ID = "SELECT * FROM reservations WHERE user_id = ?";
+    private static final String CHECK_RESERVATION_EXISTS_QUERY = "SELECT * FROM reservations WHERE user_id = ? AND source_location = ? AND destination_location = ? AND date_of_journey = ? AND time_of_journey = ? AND class_type = ? AND seat = ?";
 
     public static List<Reservation> getReservationsByUserId(String userId) {
         List<Reservation> reservations = new ArrayList<>();
@@ -56,7 +57,7 @@ public class ReservationDAO {
 
         return reservations;
     }
-   
+
     public static String[] getCityOptions() {
         try (Connection connection = DatabaseConnection.getConnection();
              Statement statement = connection.createStatement();
@@ -164,11 +165,6 @@ public class ReservationDAO {
 
             preparedStatement.executeUpdate();
 
-//            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-//            if (generatedKeys.next()) {
-//                int generatedKey = generatedKeys.getInt(1);
-//                // Do something with the generated key if needed
-//            }
         } catch (SQLException | ParseException e) {
             e.printStackTrace(); // Handle the exception according to your needs
         }
@@ -189,41 +185,28 @@ public class ReservationDAO {
             return false; // Return false in case of an error
         }
     }
-    
-    private static final String INSERT_USER_QUERY = "INSERT INTO users (username, password, role, full_name, email_address, gender, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-    public static int insertUser(User user) {
+    public static boolean isReservationExists(String userId, String from, String to, String date, String time, String travelClass, String seat) {
         try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_QUERY, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(CHECK_RESERVATION_EXISTS_QUERY)) {
 
-            preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getRole());
-            preparedStatement.setString(4, user.getFull_name());
-            preparedStatement.setString(5, user.getEmail_address());
-            preparedStatement.setString(6, user.getGender());
-            preparedStatement.setDate(7, user.getDate_of_birth());
+            preparedStatement.setString(1, userId);
+            preparedStatement.setString(2, from);
+            preparedStatement.setString(3, to);
+            preparedStatement.setString(4, date);
+            preparedStatement.setString(5, time);
+            preparedStatement.setString(6, travelClass);
+            preparedStatement.setString(7, seat);
 
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows > 0) {
-                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                }
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next(); // If there is a result, the reservation already exists
             }
 
         } catch (SQLException e) {
             e.printStackTrace(); // Handle the exception according to your needs
-        }
-
-        return -1; // Return -1 for failure
-    }
-
-    public static void insertReservationWithUser(Reservation reservation, User user) {
-        int userId = insertUser(user);
-        if (userId != -1) {
-            reservation.setUserId(String.valueOf(userId));
-            insertReservation(reservation);
+            return true; // Return true in case of an error
         }
     }
+
+   
 }
