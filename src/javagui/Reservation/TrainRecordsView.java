@@ -94,12 +94,18 @@ public class TrainRecordsView extends JFrame {
         classLabel.setForeground(Color.WHITE);
         classLabel.setBounds(50, 260, 400, 20);
         panel.add(classLabel);
+        
+        JLabel seatLabel = new JLabel("Select a seat: " );
+        seatLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        seatLabel.setForeground(Color.WHITE);
+        seatLabel.setBounds(50,300,150,30);
+        panel.add(seatLabel);
+        
 
-        int yOffset = 300;
-
+ 
         // Create and populate the seat selection combo box
         seatComboBox = new JComboBox<>(getSeatOptions());
-        seatComboBox.setBounds(50, yOffset, 150, 30);
+        seatComboBox.setBounds(200, 300, 150, 30);
         panel.add(seatComboBox);
 
         JButton confirmSeatButton = new JButton("Confirm Seat");

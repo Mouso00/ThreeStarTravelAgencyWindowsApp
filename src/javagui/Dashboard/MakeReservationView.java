@@ -9,7 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MakeReservationView extends JFrame {
@@ -42,19 +44,20 @@ public class MakeReservationView extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setBackground(new Color(54, 100, 139));
-        panel.setBounds(0, 0, 800, 600);
+        panel.setForeground(Color.WHITE);
+        panel.setBounds(0, 0, 900, 600);
         contentPane.add(panel);
         panel.setLayout(null);
 
         JLabel titleLabel = new JLabel("Make a Reservation");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBounds(300, 30, 200, 40);
+        titleLabel.setBounds(300, 30, 400, 40);
         panel.add(titleLabel);
 
-        int labelX = 100;
+        int labelX = 70;
         int labelY = 100;
-        int comboBoxX = 250;
+        int comboBoxX = 300;
         int comboBoxY = 100;
         int labelComboBoxGap = 50;
         int comboBoxWidth = 150;
@@ -69,7 +72,7 @@ public class MakeReservationView extends JFrame {
         comboBoxY += labelComboBoxGap;
 
         dateChooser = new JDateChooser();
-        dateChooser.setBounds(comboBoxX, comboBoxY, 150, 30);
+        dateChooser.setBounds(comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight);
         panel.add(dateChooser);
 
         createLabelAndComboBox(panel, "Date of Journey:", labelX, labelY, comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight, getDateOptions());
@@ -119,6 +122,16 @@ public class MakeReservationView extends JFrame {
 	        JOptionPane.showMessageDialog(this, "Please select a date.", "Date Selection Error", JOptionPane.ERROR_MESSAGE);
 	        return; 
 	    }
+	    // Check if the selected date is before today's date
+	    Calendar todayCalendar = Calendar.getInstance();
+	    Calendar selectedDateCalendar = Calendar.getInstance();
+	    selectedDateCalendar.setTime(selectedDate);
+
+	    if (selectedDateCalendar.before(todayCalendar)) {
+	       
+	        JOptionPane.showMessageDialog(this, "Please choose a date from tomorrow onwards", "Date Selection Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
 
 	    String formattedDate = formatDate(selectedDate);
 
@@ -131,7 +144,7 @@ public class MakeReservationView extends JFrame {
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Arial", Font.BOLD, 16));
         label.setForeground(Color.WHITE);
-        label.setBounds(labelX, labelY, 120, 30);
+        label.setBounds(labelX, labelY, 200, 30);
         panel.add(label);
 
         JComboBox<String> comboBox = new JComboBox<>(options);
@@ -168,6 +181,7 @@ public class MakeReservationView extends JFrame {
     }
 
     private String formatDate(java.util.Date date) {
-        return date.toString();
+    	 SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+         return sdf.format(date);
     }
 }

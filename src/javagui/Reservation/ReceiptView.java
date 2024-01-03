@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import javagui.Dashboard.MakeReservationView;
 import javagui.Dashboard.Menu;
+import services.UserDAO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -58,6 +59,14 @@ public class ReceiptView extends JFrame {
         panel.add(titleLabel);
 
         // Add JLabels to display receipt information
+        
+        String fullName = UserDAO.getUserFullName(userId);
+        JLabel fullNameLabel = new JLabel("Name: " + fullName);
+        fullNameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        fullNameLabel.setForeground(Color.WHITE);
+        fullNameLabel.setBounds(50, 70, 400, 20);
+        panel.add(fullNameLabel);
+         
         JLabel fromLabel = new JLabel("From: " + selectedFrom);
         fromLabel.setForeground(Color.WHITE);
         fromLabel.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -102,7 +111,7 @@ public class ReceiptView extends JFrame {
         panel.add(pnrLabel);
 
        
-        int yOffset = 350;
+     
 
         JButton backButton = new JButton("Back to Menu");
         backButton.setForeground(Color.WHITE);
