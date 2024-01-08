@@ -150,7 +150,8 @@ public class ReservationDAO {
             preparedStatement.setString(2, reservation.getTravelClass());
 
             // Convert the date string to the MySQL date format 'YYYY-MM-DD'
-            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
+
             Date parsedDate = new Date(dateFormat.parse(reservation.getDate()).getTime());
             preparedStatement.setDate(3, parsedDate);
 
